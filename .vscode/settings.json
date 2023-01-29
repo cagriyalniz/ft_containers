@@ -49,6 +49,16 @@
         "cwchar": "cpp",
         "cwctype": "cpp",
         "mutex": "cpp",
-        "ratio": "cpp"
+        "ratio": "cpp",
+        "__hash_table": "cpp",
+        "__node_handle": "cpp",
+        "__split_buffer": "cpp",
+        "array": "cpp",
+        "cmath": "cpp",
+        "complex": "cpp",
+        "optional": "cpp",
+        "sstream": "cpp",
+        "unordered_map": "cpp",
+        "vector": "cpp"
     }
 }

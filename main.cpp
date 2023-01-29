@@ -70,14 +70,7 @@ int main()
         std::cout<<*it2<<" ";
     std::cout<<"\n------------------------"<<std::endl;
 
-    v2.insert(v2.begin(), 999);
-    std::cout<<"\ncapacity: "<<v2.capacity()<<" size: "<<v2.size()<<std::endl;
-
-    it2 = v2.begin();
-    for(;it2 != v2.end(); it2++)
-        std::cout<<*it2<<" ";
-    std::cout<<"\n------------------------"<<std::endl;
-
+   
 /*     v2.erase(v2.begin());
     std::cout<<"\ncapacity: "<<v2.capacity()<<" size: "<<v2.size()<<std::endl; */
 /*     v2.erase(v2.begin());
@@ -96,11 +89,23 @@ int main()
     v2.push_back(42);
     v2.push_back(52);
     v2.push_back(62); */
+    v2.erase(v2.begin());
     ft::random_access_iterator<int>::iterator it3;
 
-    it3 = v2.begin();
+        it3 = v2.begin();
     for(;it3 != v2.end(); it3++)
         std::cout<<*it3<<" ";
+    std::cout<<"\ncapacity: "<<v2.capacity()<<" size: "<<v2.size()<<std::endl;
+    
+    v2.erase(v2.begin(), v2.end());
+
+    ft::random_access_iterator<int>::iterator it4;
+
+    it4 = v2.begin();
+    for(;it4 != v2.end(); it4++)
+        std::cout<<*it4<<" ";
+    std::cout<<"\ncapacity: "<<v2.capacity()<<" size: "<<v2.size()<<std::endl;
+    
     
     //v2.erase(v2.begin());
 /*     v2.insert(v2.begin(), 72);

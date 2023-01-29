@@ -137,15 +137,15 @@ namespace ft
             //emplace c++11
 
 
-            size_type find_capacity_by_two_position(iterator pos_start, iterator pos_end)
+            size_type find_size_by_two_position(iterator pos_start, iterator pos_end)
             {
-                size_type newCapacity = 0;
+                size_type newSize = 0;
                 while(pos_start != pos_end)
                 {
-                    newCapacity++;
+                    newSize++;
                     pos_start++;
                 }
-                return newCapacity;
+                return this->_size - newSize;
             }
 
             iterator erase(iterator pos)
@@ -163,25 +163,20 @@ namespace ft
             iterator erase(iterator pos_start, iterator pos_end)
             {
                 std::cout<<"\nerase func 2 arg"<<std::endl;
-                value_type	*newBlock;
-                int j = 0;
                 int count = 0;
-                size_type newCapacity = find_capacity_by_two_position(pos_start, pos_end);
-				newBlock = this->_allocator.allocate(newCapacity);
+                size_type newCapacity = this->_capacity;
+  				iterator iter = pos_start;
+				while (iter != pos_end)
+				{
+					this->_allocator.destroy(&(*iter));
+					iter++;
+					count++;
+				}
+				iter = this->begin();
+				while (iter != (this->end() - 1))
+					this->_allocator.construct(&(*iter), *(++iter));
 
-				for (size_type i = 0; i < this->_size; i++)
-                {
-                    if (*pos_start == this->_array[i])
-                        while(this->_array[i] != *pos_end)
-                            {
-                                count++;
-                                i++;
-                            }
-                    this->_allocator.construct(&newBlock[j++], this->_array[i]);
-                }
-				this->clear();//mycode
-				this->_array = newBlock;
-				this->_capacity -= count;
+				this->_capacity = newCapacity;
                 this->_size-= count;
                 return pos_start;
             }
