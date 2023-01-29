@@ -89,7 +89,7 @@ int main()
     v2.push_back(42);
     v2.push_back(52);
     v2.push_back(62); */
-    v2.erase(v2.begin());
+    /* v2.erase(v2.begin()); */
     ft::random_access_iterator<int>::iterator it3;
 
         it3 = v2.begin();
@@ -97,7 +97,12 @@ int main()
         std::cout<<*it3<<" ";
     std::cout<<"\ncapacity: "<<v2.capacity()<<" size: "<<v2.size()<<std::endl;
     
-    v2.erase(v2.begin(), v2.end());
+    //v2.erase(v2.begin(), v2.end());
+
+    v2.resize(20);
+    std::cout<<"\ncapacity: "<<v2.capacity()<<" size: "<<v2.size()<<std::endl;
+
+    v2.resize(30, 9);
 
     ft::random_access_iterator<int>::iterator it4;
 

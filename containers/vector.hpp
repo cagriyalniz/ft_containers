@@ -203,6 +203,32 @@ namespace ft
             }
             
 			//resize
+			void resize(size_type n, value_type value = value_type())
+			{
+				if (n == this->_size)
+					return ;
+				if (n < this->_size)
+				{
+					size_type i = n;
+					while(i != this->_size)
+						this->_allocator.destroy(&this->_array[i++]);
+				}
+				else
+				{
+/* 					size_type i = this->_size;
+					this->_reAlloc(n);
+					while(i < n)
+						this->_allocator.construct(&this->_array[i++], value); */
+					size_type i = n;
+					size_type oldSize = this->_size;
+					while (i > oldSize)
+					{
+						this->push_back(value);
+						i--;
+					}
+				}
+				this->_size = n;
+			}
 			
 
     };
