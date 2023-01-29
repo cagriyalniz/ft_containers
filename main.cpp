@@ -1,4 +1,5 @@
 #include "./containers/vector.hpp"
+#include "./containers/stack.hpp"
 #include <vector>
 void print_vector(ft::vector<int> v)
 {
@@ -82,6 +83,20 @@ int main()
 
 
 
-    
+    ft::stack<std::string, ft::vector<std::string> > myStack;
+	myStack.push("42");
+	myStack.push("ecole");
+	std::cout<<myStack.top()<<std::endl;
+
+	ft::stack<int> myStackInt;
+	myStackInt.push(42);
+	myStackInt.push(41);
+	std::cout<<myStackInt.top()<<std::endl;
+	myStackInt.pop();
+	std::cout<<myStackInt.top()<<std::endl;
+
+
+
+
 
 }

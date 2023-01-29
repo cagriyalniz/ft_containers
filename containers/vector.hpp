@@ -2,6 +2,7 @@
 #include <stddef.h>
 #include <memory> // typename A = std::allocator<T>
 #include <iostream>
+#include <string>
 #include "vectorIterator.hpp"
 #include "../iterators/random_access_iterator.hpp"
 namespace ft
@@ -14,8 +15,8 @@ namespace ft
         public:
             typedef T                                       value_type; //Element type
             typedef Alloc                                   allocator_type; //
-            typedef typename Alloc::reference                   referance; //Reference to element
-            typedef typename Alloc::const_reference             const_referance; //Reference to constant element
+            typedef typename Alloc::reference                   reference; //Reference to element
+            typedef typename Alloc::const_reference             const_reference; //Reference to constant element
             typedef typename Alloc::pointer                     pointer;   //Pointer to element
             typedef typename Alloc::const_pointer               const_pointer;   //Pointer to const element
             typedef ft::random_access_iterator<T>             iterator;
@@ -24,6 +25,7 @@ namespace ft
             typedef ft::ConstReverseVectorIterator<T>       const_reverse_iterator;
             typedef ptrdiff_t                               difference_type; //	Difference between two pointers/iterators // #include <stddef.h>
             typedef std::size_t                             size_type;
+			
         private:
             size_t                                          _size;
             size_t                                          _capacity;
@@ -50,30 +52,30 @@ namespace ft
 			//back
 			//data
 
-			referance at(size_type pos)
+			reference at(size_type pos)
 			{
 				this->checkIndex(pos);
 				return (this->_array[pos]);
 			}
 
-			referance operator[](size_type pos)
+			reference operator[](size_type pos)
 			{
 				this->checkIndex(pos);
 				return (this->_array[pos]);
 			}
 
-/* 			referance operator[](size_type pos) const
+/* 			reference operator[](size_type pos) const
 			{
 				this->checkIndex(pos);
 				return (this->_array[pos]);
 			} */
 
-			referance front(void)
+			reference front(void)
 			{
 				return (this->_array[0]);
 			}
 
-			referance back(void)
+			reference back(void)
 			{
 				return (this->_array[this->_size - 1]);
 			}
@@ -346,7 +348,7 @@ namespace ft
 
     };
 
-	template< class T, class Alloc >
+/* 	template< class T, class Alloc >
 	void swap( ft::vector<T,Alloc>& lhs, ft::vector<T,Alloc>& rhs )
 	{
 		lhs.swap(rhs);
@@ -391,6 +393,6 @@ namespace ft
 	{
 		return ((lhs > rhs) || (lhs == rhs));
 	}
-
+ */
 
 }
