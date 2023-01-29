@@ -40,7 +40,7 @@ namespace ft
                     this->_allocator.construct(&this->_array[i], val);
             }
             ~vector(){};
-            vector(const vector& other){if(*this != &other){ *this = other;}};
+            vector(const vector& other):_size(0), _capacity(0), _allocator(other._allocator), _array(NULL){ *this = other;};
             
             //iterators
             iterator begin(){return iterator(this->_array);}
@@ -229,7 +229,29 @@ namespace ft
 				}
 				this->_size = n;
 			}
+
+
+			void swap(vector& other)
+			{
+				size_type tempSize = other._size;
+				size_type tempCapacity = other._capacity;
+				Alloc	  tempAlloc = other._allocator;
+				pointer   tempArray = other._array;
+
+				other._size = this->_size;
+				other._capacity = this->_capacity;
+				other._allocator = this->_allocator;
+				other._array = this->_array;
+
+				this->_size = tempSize;
+				this->_capacity = tempCapacity;
+				this->_allocator = other._allocator;
+				this->_array = other._array; 
+			}
 			
+
+
+
 
     };
 

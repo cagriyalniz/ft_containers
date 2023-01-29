@@ -15,7 +15,7 @@
 int main()
 {
     ft::random_access_iterator<int>::iterator it2;
-/*     ft::vector<int> v1;
+    ft::vector<int> v1;
 
     v1.push_back(2);
     v1.push_back(3);
@@ -26,11 +26,11 @@ int main()
     for(;it != v1.end(); it++)
         std::cout<<*it<<" ";
 
-    v1.clear();
+   // v1.clear();
     std::cout<<"new iter"<<std::endl;
     it2 = v1.begin();
     for(;it2 != v1.end(); it2++)
-        std::cout<<*it2<<" "; */
+        std::cout<<*it2<<" ";
     
     ft::vector<int> v2;
     std::cout<<"\ncapacity: "<<v2.capacity()<<" size: "<<v2.size()<<std::endl;
@@ -65,12 +65,17 @@ int main()
     v2.insert(v2.begin(), 3, 5);
     std::cout<<"\ncapacity: "<<v2.capacity()<<" size: "<<v2.size()<<std::endl;
 
+
+    swap(v1, v2);
     it2 = v2.begin();
+    std::cout<<"\n----------after swap--------------"<<std::endl;
+
     for(;it2 != v2.end(); it2++)
         std::cout<<*it2<<" ";
-    std::cout<<"\n------------------------"<<std::endl;
+    std::cout<<"\n--------------end swap----------"<<std::endl;
 
    
+
 /*     v2.erase(v2.begin());
     std::cout<<"\ncapacity: "<<v2.capacity()<<" size: "<<v2.size()<<std::endl; */
 /*     v2.erase(v2.begin());
@@ -90,7 +95,7 @@ int main()
     v2.push_back(52);
     v2.push_back(62); */
     /* v2.erase(v2.begin()); */
-    ft::random_access_iterator<int>::iterator it3;
+   /*  ft::random_access_iterator<int>::iterator it3;
 
         it3 = v2.begin();
     for(;it3 != v2.end(); it3++)
@@ -110,7 +115,7 @@ int main()
     for(;it4 != v2.end(); it4++)
         std::cout<<*it4<<" ";
     std::cout<<"\ncapacity: "<<v2.capacity()<<" size: "<<v2.size()<<std::endl;
-    
+     */
     
     //v2.erase(v2.begin());
 /*     v2.insert(v2.begin(), 72);
