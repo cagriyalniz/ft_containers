@@ -109,42 +109,16 @@ namespace ft
                 return this->_capacity;
             }
 
-            void insert(iterator pos, const value_type& val)
+            iterator insert(iterator pos, const value_type& val)
             {
                 std::cout<<"\ninsert 2 parameter"<<std::endl;
-                int mySize = this->_size;
-                size_type new_capacity = find_new_capacity(1);
-                value_type *newBlock;
-                int j = 0;
+                
+                size_type index = pos - this->begin();
+                this->_open_space(1, index);
+                this->_allocator.construct(&this->_array[index], val);
+				this->_size++;
+				return (this->begin() + index);
 
-				newBlock = this->_allocator.allocate(new_capacity);
-                iterator myvec = this->begin();
-                if (mySize == 0)
-                {
-				    this->_allocator.construct(&newBlock[j], val);
-                    this->_array = newBlock;
-				    this->_capacity = new_capacity;//
-                    this->_size = mySize + 1;//
-                }
-                else
-                {
-                    for(size_type i = 0; i < this->_size; i++)
-                    {
-                        if (myvec != pos)
-				    	    this->_allocator.construct(&newBlock[j], *myvec);
-                        else
-                        {
-				    	    this->_allocator.construct(&newBlock[j++], val);
-				    	    this->_allocator.construct(&newBlock[j], *myvec);
-                        }
-                        myvec++;
-                        j++;
-                    }
-                    this->clear();//
-                    this->_array = newBlock;
-				    this->_capacity = new_capacity;//
-                    this->_size = mySize + 1;//
-                }
             }
 
 

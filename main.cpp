@@ -70,6 +70,14 @@ int main()
         std::cout<<*it2<<" ";
     std::cout<<"\n------------------------"<<std::endl;
 
+    v2.insert(v2.begin(), 999);
+    std::cout<<"\ncapacity: "<<v2.capacity()<<" size: "<<v2.size()<<std::endl;
+
+    it2 = v2.begin();
+    for(;it2 != v2.end(); it2++)
+        std::cout<<*it2<<" ";
+    std::cout<<"\n------------------------"<<std::endl;
+
 /*     v2.erase(v2.begin());
     std::cout<<"\ncapacity: "<<v2.capacity()<<" size: "<<v2.size()<<std::endl; */
 /*     v2.erase(v2.begin());

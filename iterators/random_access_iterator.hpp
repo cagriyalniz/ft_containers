@@ -110,7 +110,7 @@ namespace ft
 
         iterator operator+(int right_hand_side)
         {
-            return (iterator(this->pointer + right_hand_side));
+            return (iterator(this->_pointer + right_hand_side));
         }
 
 /*         iterator& operator+(int right_hand_side)
