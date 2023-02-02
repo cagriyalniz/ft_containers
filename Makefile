@@ -1,6 +1,6 @@
 NAME = container
 
-FILES = $(wildcard *.cpp)
+FILES = main.cpp
 
 CC = c++ 
 
