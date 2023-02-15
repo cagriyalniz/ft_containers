@@ -1,12 +1,17 @@
 #ifndef RANDOMACCESSITERATOR_HPP
 #define RANDOMACCESSITERATOR_HPP
 
-#include "Iterator.hpp"
+#include "./Iterator.hpp"
+#include "./BidirectionalIterator.hpp"
+
+class BidirectionalIterator;
+
 
 namespace ft
 {
     template <typename T>
-    class RandomAccessIterator : public Iterator<T, std::random_access_iterator_tag>
+    class RandomAccessIterator :    public BidirectionalIterator<T, std::random_access_iterator_tag>
+                                    public Iterator<T, std::random_access_iterator_tag>
     {
     private:
         typedef RandomAccessIterator<T> randomIterator;

@@ -1,13 +1,16 @@
-#ifndef OUTPUTITERATOR_HPP
-#define OUTPUTITERATOR_HPP
+#ifndef FORWARDITERATOR_HPP
+#define FORWARDITERATOR_HPP
 
-#include "Iterator.hpp"
+#include "./Iterator.hpp"
+#include "./InputIterator.hpp"
+#include "./OutputIterator.hpp"
 
 namespace ft
 {
     template <typename T>
-    class ForwardIterator : public InputIterator<T, std::input_iterator_tag>,
-                            public OutputIterator<T, std::output_iterator_tag>
+    class ForwardIterator : public InputIterator<T>,
+                            public OutputIterator<T>,
+                            public Iterator<T, std::forward_iterator_tag>
     {
     private:
         typedef ForwardIterator<T> forwardIterator;
@@ -37,15 +40,22 @@ namespace ft
         {
             this->_ptr = ptr;
         }
+
         reference operator*() const
         {
             return *(this->_ptr);
         };
 
+        reference operator*()
+        {
+            this->_ptr++;
+            return *(this->_ptr);
+        }
+        
         ForwardIterator &operator++()
         {
             ForwardIterator tmp = *this;
-            _ptr++;
+            this->_ptr++;
             return (tmp);
         }
     };

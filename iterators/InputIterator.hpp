@@ -6,7 +6,7 @@
 namespace ft
 {
     template <typename T>
-    class InputIterator : public Iterator<T, std::input_access_iterator_tag>
+    class InputIterator : public Iterator<T, std::input_iterator_tag>
     {
     private:
         typedef InputIterator<T> inputIterator;
@@ -32,11 +32,11 @@ namespace ft
             return &(operator*());
         };
 
-        friend bool operator!=(const InputIterator &_inputIterator)
+        bool operator!=(const InputIterator &_inputIterator)
         {
             return (this->_ptr != _inputIterator._ptr);
         }
-        friend bool operator==(const InputIterator &_iterator)
+        bool operator==(const InputIterator &_inputIterator)
         {
             return this->_ptr == _inputIterator._ptr;
         }
