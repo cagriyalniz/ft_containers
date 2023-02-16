@@ -59,6 +59,10 @@
         "optional": "cpp",
         "sstream": "cpp",
         "unordered_map": "cpp",
-        "vector": "cpp"
+        "vector": "cpp",
+        "__tree": "cpp",
+        "deque": "cpp",
+        "map": "cpp",
+        "stack": "cpp"
     }
 }

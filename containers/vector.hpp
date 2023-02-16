@@ -4,7 +4,7 @@
 #include <iostream>
 #include <string>
 #include "vectorIterator.hpp"
-#include "../iterators/random_access_iterator.hpp"
+#include "../iterators/RandomAccess_Iterator.hpp"
 namespace ft
 {
     template <class T, class Alloc = std::allocator<T> >
@@ -19,10 +19,10 @@ namespace ft
             typedef typename Alloc::const_reference             const_reference; //Reference to constant element
             typedef typename Alloc::pointer                     pointer;   //Pointer to element
             typedef typename Alloc::const_pointer               const_pointer;   //Pointer to const element
-            typedef ft::random_access_iterator<T>             iterator;
-            typedef ft::ConstVectorIterator<T>              const_iterator;
-            typedef ft::ReverseVectorIterator<T>            reverse_iterator;
-            typedef ft::ConstReverseVectorIterator<T>       const_reverse_iterator;
+            typedef ft::RandomAccessIterator<T>             iterator;
+            //typedef ft::ConstVectorIterator<T>              const_iterator;
+            //typedef ft::ReverseVectorIterator<T>            reverse_iterator;
+            //typedef ft::ConstReverseVectorIterator<T>       const_reverse_iterator;
             typedef ptrdiff_t                               difference_type; //	Difference between two pointers/iterators // #include <stddef.h>
             typedef std::size_t                             size_type;
 			

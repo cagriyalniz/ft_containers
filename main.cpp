@@ -1,9 +1,11 @@
 #include "./containers/vector.hpp"
 #include "./containers/stack.hpp"
 #include <vector>
-void print_vector(ft::vector<int> v)
+#include "./iterators/RandomAccess_Iterator.hpp"
+
+/* void print_vector(ft::vector<int> v)
 {
-    ft::random_access_iterator<int>::iterator it = v.begin();
+    ft::RandomAccessIterator<int>::iterator it = v.begin();
     std::cout<<"print MY vector";
     std::cout<< "\n-------------\n";
     std::cout<<"capacity: "<<v.capacity()<<" size: "<<v.size()<<std::endl;
@@ -24,7 +26,7 @@ void print_vector(std::vector<int> v)
     while(it != v.end())
         std::cout<<*it++<<" ";
     std::cout<< "\n-------------\n";
-}
+} */
 
 int main()
 {
@@ -83,7 +85,7 @@ int main()
 
 
 
-    ft::stack<std::string, ft::vector<std::string> > myStack;
+  /*   ft::stack<std::string, ft::vector<std::string> > myStack;
 	myStack.push("42");
 	myStack.push("ecole");
 	std::cout<<myStack.top()<<std::endl;
@@ -93,9 +95,23 @@ int main()
 	myStackInt.push(41);
 	std::cout<<myStackInt.top()<<std::endl;
 	myStackInt.pop();
-	std::cout<<myStackInt.top()<<std::endl;
+	std::cout<<myStackInt.top()<<std::endl; */
+	/* ft::vector<int>::iterator myIt;
+	myIt = myStackInt.begin();
+	std::cout<<*myIt<<std::endl;
+    myIt++;
+    std::cout<<*myIt<<std::endl; */
+	ft::vector<int> ar;
+    ft::vector<int>::iterator ptr;
 
-
+    ar.push_back(1);
+    ar.push_back(2);
+    ar.push_back(3);
+    ar.push_back(4);
+      
+    std::cout << "The vector elements are : ";
+    for (ptr = ar.begin(); ptr < ar.end(); ptr++)
+        std::cout << *ptr << " ";
 
 
 
