@@ -1,6 +1,8 @@
 #ifndef TYPE_TRAITS_HPP
 #define TYPE_TRAITS_HPP
-
+#include <iostream>
+#include <string>
+#include <cstdio>
 namespace ft
 {
    template <typename _Tp, _Tp _v>
@@ -19,7 +21,9 @@ namespace ft
 
    //is_integral
    template<typename T>
-   struct is_integral : false_type{};
+   struct is_integral : false_type{
+      //printf("is_integral\n");
+   };
 
    //specializations
    template<>

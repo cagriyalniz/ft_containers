@@ -31,88 +31,93 @@ void print_vector(std::vector<int> v)
 int main()
 {
 
-	//vector
-	//outofindex control edilecek
+	std::cout<< "***iterator begin() const_iterator begin()***\n" <<std::endl;
+	ft::vector<int> myVecBegin;
+	ft::vector<int>::iterator myItBegin;
+	ft::vector<int>::const_iterator myConstItBegin;
 
-	/* 
-    ft::vector<int> myV1;
-    ft::random_access_iterator<int>::iterator myIt;
-	
-	print_vector(myV1);
+	std::vector<int> orjVecBegin;
+	std::vector<int>::iterator orjItBegin;
+	std::vector<int>::const_iterator constOrjItBegin;
 
-	myV1.insert(myV1.begin(), 0);
-	print_vector(myV1);
+	myVecBegin.push_back(1);
+	myItBegin = myVecBegin.begin();
+	myConstItBegin = myVecBegin.begin();
+	std::cout <<"my vector: "<< *myItBegin<< " " << *myConstItBegin << std::endl;
 
-	myV1.insert(myV1.begin(), 2, 1);
-	print_vector(myV1);
+	orjVecBegin.push_back(1);
+	orjItBegin = orjVecBegin.begin();
+	constOrjItBegin = orjVecBegin.begin();
+	std::cout<<"orj vector: "<< *orjItBegin<< " " << *constOrjItBegin << std::endl;
 
-	myV1.erase(myV1.begin());
-	print_vector(myV1);
+	std::cout<< "----------------------------------------------\n\n" <<std::endl;
 
-	myV1.erase(myV1.begin(), myV1.end());
-	print_vector(myV1);
+	std::cout<< "***iterator end() const_iterator end()***\n" <<std::endl;
+	ft::vector<int> myVecEnd;
+	ft::vector<int>::iterator myItEnd;
+	ft::vector<int>::const_iterator myConstItEnd;
 
-	for (int i = 0; i < 10; i++)
-		myV1.push_back(i);
-	print_vector(myV1);
-	
-	
-	for (int i = 0; i < 10; i++)
-		myV1.pop_back();
-	print_vector(myV1);
+	std::vector<int> orjVecEnd;
+	std::vector<int>::iterator orjItEnd;
+	std::vector<int>::const_iterator constOrjItEnd;
+	myVecEnd.push_back(1);
+	myVecEnd.push_back(2);
+	//2 1
+	myItEnd = myVecEnd.end() - 1;
+	myConstItEnd = myVecEnd.end() - 1;
+	std::cout <<"my vector: "<< *myItEnd<< " " << *myConstItEnd << std::endl;
 
-	myV1.resize(1);
-	print_vector(myV1);
+	orjVecEnd.push_back(1);
+	orjVecEnd.push_back(2);
+	//2 1
+	orjItEnd = orjVecEnd.end() - 1;
+	constOrjItEnd = orjVecEnd.end() - 1;
+	std::cout<<"orj vector: "<< *constOrjItEnd<< " " << *constOrjItEnd << std::endl;
+	/*
+		Returns an iterator referring to the past-the-end element in the vector container.
+		The past-the-end element is the theoretical element that would follow the last element in the vector. 
+		It does not point to any element, and thus shall not be dereferenced.
 
-	myV1.resize(5, 42);
-	print_vector(myV1);
-	
-	myV1.resize(2);
-	print_vector(myV1);
+		Vektör container'ındaki past-the-end öğesine başvuran bir iterator döndürür. 
+		Past-the-end öğesi, vektördeki son öğeyi takip edecek olan teorik öğedir. 
+		Herhangi bir öğeye işaret etmez ve bu nedenle atıf yapılmayacaktır.
+	*/
 
-	ft::vector<int>myV2;
-	myV2.push_back(41);
-	print_vector(myV2);
+	//If the container is empty, this function returns the same as vector::begin.
+	ft::vector<int> myVecEmptyEnd;
+	std::vector<int> orjVecEmptyEnd;
+	std::cout<<"empty vector test: \n";
+	if (myVecEmptyEnd.begin() == myVecEmptyEnd.end())
+		std::cout<<"True \n";
+	if (orjVecEmptyEnd.begin() == orjVecEmptyEnd.end())
+		std::cout<<"True \n";
 
-	myV1.swap(myV2);
-	print_vector(myV1);
+	std::cout<< "----------------------------------------------\n\n" <<std::endl;
 
+	std::cout<< "***iterator rbegin() const_iterator rbegin()***\n" <<std::endl;
+	ft::vector<int> myVecRBegin;
+	ft::vector<int>::reverse_iterator myItRBegin;
+	//ft::vector<int>::const_iterator myConstItRBegin;
 
-	myIt = myV2.begin();
-	std::cout<<*myIt<<std::endl;
-	myIt++;
-	std::cout<<*myIt<<std::endl; */
+	std::vector<int> orjVecRBegin;
+	std::vector<int>::reverse_iterator orjItRBegin;
+	//std::vector<int>::const_iterator constOrjItRBegin;
 
+	myVecRBegin.push_back(1);
+	myVecRBegin.push_back(2);
+	myVecRBegin.push_back(3);
+	myItRBegin = myVecRBegin.rbegin();
+	//myConstItRBegin = myVecRBegin.rbegin();
+	std::cout <<"my vector: "/* << *myItRBegin<<  */" " /* << *myConstItRBegin */ << std::endl;
 
+	orjVecRBegin.push_back(1);
+	orjVecRBegin.push_back(2);
+	orjVecRBegin.push_back(3);
+	//3 2 1
+	orjItRBegin = orjVecRBegin.rbegin();
+	//constOrjItRBegin = orjVecRBegin.rbegin();
+	std::cout<<"orj vector: "<< *orjItRBegin<< " " /* << *constOrjItRBegin */ << std::endl;
 
-  /*   ft::stack<std::string, ft::vector<std::string> > myStack;
-	myStack.push("42");
-	myStack.push("ecole");
-	std::cout<<myStack.top()<<std::endl;
-
-	ft::stack<int> myStackInt;
-	myStackInt.push(42);
-	myStackInt.push(41);
-	std::cout<<myStackInt.top()<<std::endl;
-	myStackInt.pop();
-	std::cout<<myStackInt.top()<<std::endl; */
-	/* ft::vector<int>::iterator myIt;
-	myIt = myStackInt.begin();
-	std::cout<<*myIt<<std::endl;
-    myIt++;
-    std::cout<<*myIt<<std::endl; */
-	ft::vector<int> ar;
-    ft::vector<int>::iterator ptr;
-
-    ar.push_back(1);
-    ar.push_back(2);
-    ar.push_back(3);
-    ar.push_back(4);
-      
-    std::cout << "The vector elements are : ";
-    for (ptr = ar.begin(); ptr < ar.end(); ptr++)
-        std::cout << *ptr << " ";
-
-
+	std::cout<< "----------------------------------------------\n\n" <<std::endl;
 
 }

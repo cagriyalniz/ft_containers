@@ -1,3 +1,5 @@
+//dizayn: https://cplusplus.com/reference/vector/vector/?kw=vector
+
 #pragma once
 #include <stddef.h>
 #include <memory> // typename A = std::allocator<T>
@@ -5,35 +7,64 @@
 #include <string>
 #include "vectorIterator.hpp"
 #include "../iterators/RandomAccess_Iterator.hpp"
+#include "../iterators/Reverse_Iterator.hpp"
+#include "../utils/type_traits.hpp"
 namespace ft
 {
+
+	/*
+	member type 			|	definition																				|	notes
+
+	value_type				|	The first template parameter (T)														|
+	allocator_type			|	The second template parameter (Alloc)													|	defaults to: allocator<value_type>
+	reference				|	allocator_type::reference																|	for the default allocator: value_type&
+	const_reference			|	allocator_type::const_reference															|	for the default allocator: const value_type&
+	pointer					|	allocator_type::pointer																	|	for the default allocator: value_type*
+	const_pointer			|	allocator_type::const_pointer															|	for the default allocator: const value_type*
+	iterator				|	a random access iterator to value_type													|	convertible to const_iterator
+	const_iterator			|	a random access iterator to const value_type											|
+	reverse_iterator		|	reverse_iterator<iterator>																|
+	const_reverse_iterator	|	reverse_iterator<const_iterator>														|
+	difference_type			|	a signed integral type, identical to: iterator_traits<iterator>::difference_type		|	usually the same as ptrdiff_t
+	size_type				|	an unsigned integral type that can represent any non-negative value of difference_type	|	usually the same as size_t
+
+	*/
     template <class T, class Alloc = std::allocator<T> >
     class vector{
-        //datalar, capacity, size, alloc_type
         protected:
 
         public:
             typedef T                                       value_type; //Element type
             typedef Alloc                                   allocator_type; //
-            typedef typename Alloc::reference                   reference; //Reference to element
-            typedef typename Alloc::const_reference             const_reference; //Reference to constant element
-            typedef typename Alloc::pointer                     pointer;   //Pointer to element
-            typedef typename Alloc::const_pointer               const_pointer;   //Pointer to const element
+            typedef typename Alloc::reference               reference; //Reference to element
+            typedef typename Alloc::const_reference         const_reference; //Reference to constant element
+            typedef typename Alloc::pointer                 pointer;   //Pointer to element
+            typedef typename Alloc::const_pointer           const_pointer;   //Pointer to const element
             typedef ft::RandomAccessIterator<T>             iterator;
-            //typedef ft::ConstVectorIterator<T>              const_iterator;
-            //typedef ft::ReverseVectorIterator<T>            reverse_iterator;
-            //typedef ft::ConstReverseVectorIterator<T>       const_reverse_iterator;
+            typedef ft::RandomAccessIterator<const T>        const_iterator;
+            //typedef ft::ConstVectorIterator<T>            const_iterator;
+            typedef ft::ReverseIterator<T>          		reverse_iterator;
+            //typedef ft::ConstReverseVectorIterator<T>     const_reverse_iterator;
             typedef ptrdiff_t                               difference_type; //	Difference between two pointers/iterators // #include <stddef.h>
             typedef std::size_t                             size_type;
 			
         private:
-            size_t                                          _size;
-            size_t                                          _capacity;
-            size_t                                          _max_size;
+            size_type                                       _size;
+            size_type                                       _capacity;
             Alloc                                           _allocator;
-            value_type*                                     _array;//my_code
-            //pointer                                         _array;
+            value_type                                      *_array;//my_code
+            //pointer                                        _array;
         
+
+	/*
+	member functions
+
+	(constructor)		Construct vector (public member function)
+	(destructor)		Vector destructor (public member function)
+	operator=			Assign content (public member function)
+
+	*/	
+
         public:
             vector(const allocator_type& alloc = allocator_type()): _size(0), _capacity(0), _allocator(alloc), _array(NULL){}
             vector(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()): _size(n), _capacity(n), _allocator(alloc), _array(this->_allocator.allocate(this->_capacity))
@@ -42,61 +73,58 @@ namespace ft
                     this->_allocator.construct(&this->_array[i], val);
             }
             ~vector(){};
-            vector(const vector& other):_size(0), _capacity(0), _allocator(other._allocator), _array(NULL){ *this = other;};
-            
+            vector(const vector& other):_size(other._size), _capacity(other._capacity), _allocator(other._allocator), _array(NULL){ *this = other;};
+			
+			vector &operator=(const vector &vector)
+        	{
+            	if (this == &vector)
+            	    return (*this);
+            	*this = vector;
+            	return (*this);
+        	}
 
-			//------------Element Access------------------------//
-			//at
-			//operator[]
-			//front
-			//back
-			//data
+/*
+member functions - iterators:
+begin		Return iterator to beginning 						-> iterator begin() 		 || const_iterator begin() const
+end			Return iterator to end 								-> iterator end()   		 || const_iterator end() const
+rbegin		Return reverse iterator to reverse beginning 		-> reverse_iterator rbegin() || const_reverse_iterator rbegin() const
+rend		Return reverse iterator to reverse end 
+cbegin		Return const_iterator to beginning 
+cend		Return const_iterator to end 
+crbegin		Return const_reverse_iterator to reverse beginning 
+crend		Return const_reverse_iterator to reverse end 
 
-			reference at(size_type pos)
-			{
-				this->checkIndex(pos);
-				return (this->_array[pos]);
-			}
+*/
 
-			reference operator[](size_type pos)
-			{
-				this->checkIndex(pos);
-				return (this->_array[pos]);
-			}
-
-/* 			reference operator[](size_type pos) const
-			{
-				this->checkIndex(pos);
-				return (this->_array[pos]);
-			} */
-
-			reference front(void)
-			{
-				return (this->_array[0]);
-			}
-
-			reference back(void)
-			{
-				return (this->_array[this->_size - 1]);
-			}
-
-
-            //------------Iterator Functions------------------------//
+		//------------Iterator Functions------------------------//
 			//begin
 			//end
 			//rbegin
 			//rend
 
             iterator begin(){return iterator(this->_array);}
+			const_iterator begin() const {return const_iterator(this->array); }
             iterator end(){return iterator(this->_array + this->_size);}
-            iterator rbegin(){return reverse_iterator(this->_array);}
-            iterator rend(){return reverse_iterator(this->_array[_size]);}
+            const_iterator end() const {return const_iterator(this->_array + this->_size);}
+            reverse_iterator rbegin(){ return (reverse_iterator((this->end() - 1).base())); }
+           /*  reverse_iterator rend(){return reverse_iterator(--this->begin());} */
             //const_iterator cbegin(){return const_iterator(this->_array);}
             //const_reverse_iterator crend(){return const_iterator(this->_array[_size]);}
-		//-------------------------------------------------------//
+		//------------Iterator Functions end------------------------//
 
+/*
+member functions - capacity:
+size			Return size (public member function)
+max_size		Return maximum size (public member function)
+resize			Change size (public member function)
+capacity		Return size of allocated storage capacity (public member function)
+empty			Test whether vector is empty (public member function)
+reserve			Request a change in capacity (public member function)
+shrink_to_fit	Shrink to fit (public member function)
 
-			//------------Capacity Functions------------------------//
+*/
+
+ 		//------------Capacity Functions------------------------//
 			//empty
 			//size
 			//max_size
@@ -122,10 +150,75 @@ namespace ft
 			}
 
             size_t capacity() const {return this->_capacity;}
-		//-------------------------------------------------------//
-            
+		//------------Capacity Functions end------------------------//
+
+	/*
+	member functions - element access:
+	operator[]	Access element (public member function)
+	at			Access element (public member function)
+	front		Access first element (public member function)
+	back		Access last element (public member function)
+	data		Access data (public member function)
+
+	*/
+
+		//------------Element Access------------------------//
+			//at
+			//operator[]
+			//front
+			//back
+			//data
 
 
+
+
+			reference at(size_type pos)
+			{
+				this->checkIndex(pos);
+				return (this->_array[pos]);
+			}
+
+			reference operator[](int pos)
+			{
+				//this->checkIndex(pos);
+				return (_array[pos]);
+			}
+
+			allocator_type get_allocator() const
+        	{
+            return (this->_allocator);
+        	}
+
+/* 			reference operator[](size_type pos) const
+			{
+				this->checkIndex(pos);
+				return (this->_array[pos]);
+			} */
+
+			reference front(void)
+			{
+				return (this->_array[0]);
+			}
+
+			reference back(void)
+			{
+				return (this->_array[this->_size - 1]);
+			}
+
+        //------------Element Access end------------------------//
+
+	/*
+	member functions - modifiers:
+	assign			Assign vector content (public member function)
+	push_back		Add element at the end (public member function)
+	pop_back		Delete last element (public member function)
+	insert			Insert elements (public member function)
+	erase			Erase elements (public member function)
+	swap			Swap content (public member function)
+	clear			Clear content (public member function)
+	emplace			Construct and insert element (public member function)
+	emplace_back	Construct and insert element at the end (public member function)
+	*/
 			//------------Modifiers Functions------------------------//
 			//clear
 			//insert
@@ -264,8 +357,44 @@ namespace ft
 				this->_allocator = tempAlloc;
 				this->_array = tempArray; 
 			}
-		//-------------------------------------------------------//
-			
+
+
+			template< class InputIt >
+			void assign(InputIt first,
+						InputIt last,
+						typename ft::enable_if<!ft::is_integral<InputIt>::value, bool>::type = false)
+			{
+				if (this->_array)
+					this->_allocator.deallocate(this->_array, this->_capacity);
+				this->_size = last - first;
+				if (this->_capacity < this->_size)
+					this->_capacity = this->_size;
+				this->_array = this->_allocator.allocate(this->_capacity);
+				for (size_type i = 0; i < this->_size; i++)
+					this->_allocator.construct(&this->_array[i], *(first + i));
+			}
+
+			void assign (size_type n, const value_type& val)
+			{
+				reserve(n);
+				clear();
+				this->_size = n;
+				for (size_type i = 0; i < this->_size; i++)
+					this->_allocator.construct(&this->_array[i],val);
+			}
+		//------------Modifiers Functions end------------------------//
+
+
+	/*
+	member functions - allocator:
+	get_allocator	Get allocator (public member function)
+	*/	
+
+		//------------Allocator Functions------------------------//
+
+
+		//------------Allocator Functions end------------------------//
+
 			
 			//helping funcs
 			size_type find_new_capacity(size_type n)
@@ -347,6 +476,13 @@ namespace ft
  			};
 
     };
+
+/*
+Non-member function overloads:
+
+relational operators	Relational operators for vector (function template)
+swap					Exchange contents of vectors (function template)
+*/
 
 /* 	template< class T, class Alloc >
 	void swap( ft::vector<T,Alloc>& lhs, ft::vector<T,Alloc>& rhs )

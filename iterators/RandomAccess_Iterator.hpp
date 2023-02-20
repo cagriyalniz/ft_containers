@@ -14,15 +14,20 @@ namespace ft
 		typedef std::random_access_iterator_tag			iterator_category;
 		typedef const T&								const_reference;
 		typedef const T*								const_pointer;
-
+		typedef RandomAccessIterator<const T>			const_iterator;
 		RandomAccessIterator() : _ptr(nullptr) {}
-		RandomAccessIterator(T* ptr) : _ptr(ptr) {}
+		explicit RandomAccessIterator(T* ptr) : _ptr(ptr) {}
 		RandomAccessIterator(const RandomAccessIterator& other) : _ptr(other._ptr) {}
+		
 		RandomAccessIterator& operator=(const RandomAccessIterator& other)
 		{
+			if (this == &other)
+		        return (*this);
 			_ptr = other._ptr;
 			return *this;
 		}
+
+		operator const_iterator() const {return const_iterator(_ptr);} // const_iterator begin() fonksiyonu için
 
 		reference operator*() { return *_ptr; }
 		const_reference operator*() const { return *_ptr; }
@@ -50,6 +55,16 @@ namespace ft
 		bool operator>=(const RandomAccessIterator& rhs) const { return _ptr >= rhs._ptr; }
 
 		pointer base() const { return _ptr; }
+
+		//arithmetic operators iter-iter
+		int operator+(const RandomAccessIterator& right_hand_side)
+		{
+			return (this->_ptr + right_hand_side._ptr);
+		}
+		int operator-(const RandomAccessIterator& right_hand_side)
+		{
+			return (this->_ptr - right_hand_side._ptr);
+		}
 
 	private:
 		T* _ptr;
