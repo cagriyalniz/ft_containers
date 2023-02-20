@@ -31,8 +31,6 @@ namespace ft
 	*/
     template <class T, class Alloc = std::allocator<T> >
     class vector{
-        protected:
-
         public:
             typedef T                                       value_type; //Element type
             typedef Alloc                                   allocator_type; //
@@ -40,10 +38,10 @@ namespace ft
             typedef typename Alloc::const_reference         const_reference; //Reference to constant element
             typedef typename Alloc::pointer                 pointer;   //Pointer to element
             typedef typename Alloc::const_pointer           const_pointer;   //Pointer to const element
-            typedef ft::RandomAccessIterator<T>             iterator;
-            typedef ft::RandomAccessIterator<const T>        const_iterator;
+            typedef ft::RandomAccessIterator<pointer>             iterator;
+            typedef ft::RandomAccessIterator<const_pointer>		const_iterator;
             //typedef ft::ConstVectorIterator<T>            const_iterator;
-            typedef ft::ReverseIterator<T>          		reverse_iterator;
+            //typedef ft::ReverseIterator<T>          		reverse_iterator;
             //typedef ft::ConstReverseVectorIterator<T>     const_reverse_iterator;
             typedef ptrdiff_t                               difference_type; //	Difference between two pointers/iterators // #include <stddef.h>
             typedef std::size_t                             size_type;
@@ -52,8 +50,8 @@ namespace ft
             size_type                                       _size;
             size_type                                       _capacity;
             Alloc                                           _allocator;
-            value_type                                      *_array;//my_code
-            //pointer                                        _array;
+            value_type                                      *_data;//my_code
+            //pointer                                        _data;
         
 
 	/*
@@ -66,14 +64,23 @@ namespace ft
 	*/	
 
         public:
-            vector(const allocator_type& alloc = allocator_type()): _size(0), _capacity(0), _allocator(alloc), _array(NULL){}
-            vector(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()): _size(n), _capacity(n), _allocator(alloc), _array(this->_allocator.allocate(this->_capacity))
+            explicit vector(const allocator_type& alloc = allocator_type()): _size(0), _capacity(0), _allocator(alloc), _data(NULL){}
+            
+			explicit vector(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()): _size(n), _capacity(n), _allocator(alloc), _data(0)
             {
-                for (size_type i = 0; i < this->_size; i++)
-                    this->_allocator.construct(&this->_array[i], val);
+                /* for (size_type i = 0; i < this->_size; i++)
+                    this->_allocator.construct(&this->_data[i], val); */
+					assign(n, val);
             }
-            ~vector(){};
-            vector(const vector& other):_size(other._size), _capacity(other._capacity), _allocator(other._allocator), _array(NULL){ *this = other;};
+
+			template <class InputIterator>
+			explicit vector(InputIterator first, InputIterator sec, const allocator_type &alloc = allocator_type(), typename ft::enable_if<!is_integral<InputIterator>::value, bool>::type = true): _size(0), _capacity(0), _data(NULL), _allocator(alloc)
+			{
+				assign(first, sec);
+			};
+
+			public:
+            vector(const vector& other):_size(other._size), _capacity(other._capacity), _allocator(other._allocator), _data(other._data){}
 			
 			vector &operator=(const vector &vector)
         	{
@@ -82,6 +89,7 @@ namespace ft
             	*this = vector;
             	return (*this);
         	}
+            ~vector(){};
 
 /*
 member functions - iterators:
@@ -102,14 +110,14 @@ crend		Return const_reverse_iterator to reverse end
 			//rbegin
 			//rend
 
-            iterator begin(){return iterator(this->_array);}
-			const_iterator begin() const {return const_iterator(this->array); }
-            iterator end(){return iterator(this->_array + this->_size);}
-            const_iterator end() const {return const_iterator(this->_array + this->_size);}
-            reverse_iterator rbegin(){ return (reverse_iterator((this->end() - 1).base())); }
-           /*  reverse_iterator rend(){return reverse_iterator(--this->begin());} */
-            //const_iterator cbegin(){return const_iterator(this->_array);}
-            //const_reverse_iterator crend(){return const_iterator(this->_array[_size]);}
+            iterator begin(){return iterator(this->_data);}
+			const_iterator begin() const {return const_iterator(this->data); }
+            iterator end(){return iterator(this->_data + this->_size);}
+            const_iterator end() const {return const_iterator(this->_data + this->_size);}
+            /*reverse_iterator rbegin(){ return (reverse_iterator((this->end() - 1).base())); }
+             reverse_iterator rend(){return reverse_iterator(--this->begin());} */
+            //const_iterator cbegin(){return const_iterator(this->_data);}
+            //const_reverse_iterator crend(){return const_iterator(this->_data[_size]);}
 		//------------Iterator Functions end------------------------//
 
 /*
@@ -175,13 +183,13 @@ shrink_to_fit	Shrink to fit (public member function)
 			reference at(size_type pos)
 			{
 				this->checkIndex(pos);
-				return (this->_array[pos]);
+				return (this->_data[pos]);
 			}
 
 			reference operator[](int pos)
 			{
 				//this->checkIndex(pos);
-				return (_array[pos]);
+				return (_data[pos]);
 			}
 
 			allocator_type get_allocator() const
@@ -192,17 +200,17 @@ shrink_to_fit	Shrink to fit (public member function)
 /* 			reference operator[](size_type pos) const
 			{
 				this->checkIndex(pos);
-				return (this->_array[pos]);
+				return (this->_data[pos]);
 			} */
 
 			reference front(void)
 			{
-				return (this->_array[0]);
+				return (this->_data[0]);
 			}
 
 			reference back(void)
 			{
-				return (this->_array[this->_size - 1]);
+				return (this->_data[this->_size - 1]);
 			}
 
         //------------Element Access end------------------------//
@@ -232,7 +240,7 @@ shrink_to_fit	Shrink to fit (public member function)
 			
             void clear()
             {
-                this->_allocator.destroy(this->_array);
+                this->_allocator.destroy(this->_data);
                 this->_size = 0;
             }
 
@@ -242,7 +250,7 @@ shrink_to_fit	Shrink to fit (public member function)
                 
                 size_type index = pos - this->begin();
                 this->_open_space(1, index);
-                this->_allocator.construct(&this->_array[index], val);
+                this->_allocator.construct(&this->_data[index], val);
 				this->_size++;
 				return (this->begin() + index);
             }
@@ -254,7 +262,7 @@ shrink_to_fit	Shrink to fit (public member function)
 				size_type index = pos - this->begin();
                 this->_open_space(n, index);
                 for (size_type i = 0; i < n; i++)
-                    this->_allocator.construct(&this->_array[index + i], val);
+                    this->_allocator.construct(&this->_data[index + i], val);
                 this->_size += n;    
 
             }
@@ -297,7 +305,7 @@ shrink_to_fit	Shrink to fit (public member function)
 		    void push_back(value_type value)
             {
                 this->_smart_reAlloc(this->_size + 1);
-                this->_allocator.construct(&this->_array[this->_size], value);
+                this->_allocator.construct(&this->_data[this->_size], value);
                 this->_size++;
 
             }
@@ -308,7 +316,7 @@ shrink_to_fit	Shrink to fit (public member function)
             {
                 if (this->_size == 0)
                     return ;
-                this->_allocator.destroy(this->_array + this->_size - 1);
+                this->_allocator.destroy(this->_data + this->_size - 1);
                 this->_size--;
             }
 
@@ -320,14 +328,14 @@ shrink_to_fit	Shrink to fit (public member function)
 				{
 					size_type i = n;
 					while(i != this->_size)
-						this->_allocator.destroy(&this->_array[i++]);
+						this->_allocator.destroy(&this->_data[i++]);
 				}
 				else
 				{
 /* 					size_type i = this->_size;
 					this->_reAlloc(n);
 					while(i < n)
-						this->_allocator.construct(&this->_array[i++], value); */
+						this->_allocator.construct(&this->_data[i++], value); */
 					size_type i = n;
 					size_type oldSize = this->_size;
 					while (i > oldSize)
@@ -345,17 +353,17 @@ shrink_to_fit	Shrink to fit (public member function)
 				size_type tempSize = other._size;
 				size_type tempCapacity = other._capacity;
 				Alloc	  tempAlloc = other._allocator;
-				pointer   tempArray = other._array;
+				pointer   tempArray = other._data;
 
 				other._size = this->_size;
 				other._capacity = this->_capacity;
 				other._allocator = this->_allocator;
-				other._array = this->_array;
+				other._data = this->_data;
 
 				this->_size = tempSize;
 				this->_capacity = tempCapacity;
 				this->_allocator = tempAlloc;
-				this->_array = tempArray; 
+				this->_data = tempArray; 
 			}
 
 
@@ -364,14 +372,14 @@ shrink_to_fit	Shrink to fit (public member function)
 						InputIt last,
 						typename ft::enable_if<!ft::is_integral<InputIt>::value, bool>::type = false)
 			{
-				if (this->_array)
-					this->_allocator.deallocate(this->_array, this->_capacity);
+				if (this->_data)
+					this->_allocator.deallocate(this->_data, this->_capacity);
 				this->_size = last - first;
 				if (this->_capacity < this->_size)
 					this->_capacity = this->_size;
-				this->_array = this->_allocator.allocate(this->_capacity);
+				this->_data = this->_allocator.allocate(this->_capacity);
 				for (size_type i = 0; i < this->_size; i++)
-					this->_allocator.construct(&this->_array[i], *(first + i));
+					this->_allocator.construct(&this->_data[i], *(first + i));
 			}
 
 			void assign (size_type n, const value_type& val)
@@ -380,7 +388,7 @@ shrink_to_fit	Shrink to fit (public member function)
 				clear();
 				this->_size = n;
 				for (size_type i = 0; i < this->_size; i++)
-					this->_allocator.construct(&this->_array[i],val);
+					this->_allocator.construct(&this->_data[i],val);
 			}
 		//------------Modifiers Functions end------------------------//
 
@@ -428,9 +436,9 @@ shrink_to_fit	Shrink to fit (public member function)
 					return ;
 				newBlock = this->_allocator.allocate(newCapacity);
 				for (size_type i = 0; i < this->_size; i++)
-					this->_allocator.construct(&newBlock[i], this->_array[i]);
-				this->_allocator.deallocate(this->_array, this->_capacity);
-				this->_array = newBlock;
+					this->_allocator.construct(&newBlock[i], this->_data[i]);
+				this->_allocator.deallocate(this->_data, this->_capacity);
+				this->_data = newBlock;
 				this->_capacity = newCapacity;
 			}
 
@@ -452,7 +460,7 @@ shrink_to_fit	Shrink to fit (public member function)
 			{
 				this->_smart_reAlloc(this->_size + n);
 				for (size_type i = this->_size + n - 1; i > (index_to_insert + n - 1); i--)
-					this->_allocator.construct(&this->_array[i], this->_array[i - n]);
+					this->_allocator.construct(&this->_data[i], this->_data[i - n]);
 			}
 
 

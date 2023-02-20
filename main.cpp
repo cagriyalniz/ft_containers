@@ -94,7 +94,7 @@ int main()
 
 	std::cout<< "----------------------------------------------\n\n" <<std::endl;
 
-	std::cout<< "***iterator rbegin() const_iterator rbegin()***\n" <<std::endl;
+	/* std::cout<< "***iterator rbegin() const_iterator rbegin()***\n" <<std::endl;
 	ft::vector<int> myVecRBegin;
 	ft::vector<int>::reverse_iterator myItRBegin;
 	//ft::vector<int>::const_iterator myConstItRBegin;
@@ -108,7 +108,7 @@ int main()
 	myVecRBegin.push_back(3);
 	myItRBegin = myVecRBegin.rbegin();
 	//myConstItRBegin = myVecRBegin.rbegin();
-	std::cout <<"my vector: "/* << *myItRBegin<<  */" " /* << *myConstItRBegin */ << std::endl;
+	std::cout <<"my vector: "<< *myItRBegin<< " " << *myConstItRBegin << std::endl;
 
 	orjVecRBegin.push_back(1);
 	orjVecRBegin.push_back(2);
@@ -116,8 +116,8 @@ int main()
 	//3 2 1
 	orjItRBegin = orjVecRBegin.rbegin();
 	//constOrjItRBegin = orjVecRBegin.rbegin();
-	std::cout<<"orj vector: "<< *orjItRBegin<< " " /* << *constOrjItRBegin */ << std::endl;
+	std::cout<<"orj vector: "<< *orjItRBegin<< " " << *constOrjItRBegin << std::endl;
 
-	std::cout<< "----------------------------------------------\n\n" <<std::endl;
-
+	std::cout<< "----------------------------------------------\n\n" <<std::endl;*/
+ 
 }

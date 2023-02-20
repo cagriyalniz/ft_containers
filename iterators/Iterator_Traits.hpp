@@ -1,5 +1,6 @@
 #ifndef ITERATOR_TRAITS_HPP
 #define ITERATOR_TRAITS_HPP
+
 # include <string>
 # include <iterator>
 # include <iostream>
@@ -9,11 +10,12 @@ namespace ft
     template <class Iterator>	/* A template helper construct used to specify all critical type definitions that the iterator must have. */
     class iterator_traits
     {
-        typedef typename Iterator::difference_type      difference_type;
-        typedef typename Iterator::value_type           value_type;
-        typedef typename Iterator::pointer              pointer;
-        typedef typename Iterator::reference            reference;
-        typedef typename Iterator::iterator_category    iterator_category;
+		public:
+        	typedef typename Iterator::difference_type      difference_type;
+        	typedef typename Iterator::value_type           value_type;
+        	typedef typename Iterator::pointer              pointer;
+        	typedef typename Iterator::reference            reference;
+        	typedef typename Iterator::iterator_category    iterator_category;
     };
 
     template <class T>

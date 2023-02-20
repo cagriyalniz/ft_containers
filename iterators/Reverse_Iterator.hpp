@@ -20,7 +20,7 @@ namespace ft
 			iterator_type	_it;
 
 		public:
-			ReverseIterator(): _it(NULL) {};
+			ReverseIterator(): _it(0) {};
 			explicit	ReverseIterator( iterator_type x ): _it(x) {};
 			template <class Iter>
 			ReverseIterator ( const ReverseIterator<Iter>& rev_it ): _it(rev_it.base()) {};
