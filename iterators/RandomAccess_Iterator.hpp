@@ -43,6 +43,18 @@ namespace ft
         bool operator>(const RandomAccessIterator &rhs) const { return _ptr > rhs._ptr; }
         bool operator>=(const RandomAccessIterator &rhs) const { return _ptr >= rhs._ptr; }
 
+		int operator+(const RandomAccessIterator &right_hand_side)
+        {
+            return (this->_ptr + right_hand_side._ptr);
+        }
+        int operator-(const RandomAccessIterator &right_hand_side)
+        {
+            return (this->_ptr - right_hand_side._ptr);
+        }
+
+        pointer base() const { return _ptr; }
+		
+
 		//OPERATORS
 		RandomAccessIterator & operator++() {
 			++_ptr;
@@ -97,6 +109,10 @@ namespace ft
     };
     template <typename T>
     RandomAccessIterator<T> operator+(typename RandomAccessIterator<T>::difference_type n, const RandomAccessIterator<T> &x) { return x + n; }
+
+ 	template <typename T>
+    RandomAccessIterator<T> operator-(typename RandomAccessIterator<T>::difference_type n, const RandomAccessIterator<T> &x) { return x - n; }
+	
 
 /*     template <class revIterator, class randIterator>
     bool operator!=(const ft::ReverseIterator<revIterator>& x, const RandomAccessIterator<randIterator>& y)

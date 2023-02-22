@@ -276,54 +276,69 @@ shrink_to_fit	Shrink to fit (public member function)
                 this->_size = 0;
             }
 
-			size_type distance(iterator first, iterator end)
+			size_type distance_forward(iterator first, iterator end)
 			{
 				size_type dis = 0;
-				while(first != end)
+				while(1)
 				{
 					dis++;
 					first++;
+					if (first == end)
+						break;
+
 				}
 				return dis;
 			}
 
-			iterator insert(iterator pos, const value_type& val)
-            {
-                std::cout<<"\ninsert 2 parameter"<<std::endl;
-                iterator pos2 = this->begin();
-				iterator pos1 = this->begin();
-				size_type i = 0;
-				size_type dist = distance(this->begin(), pos);
-				T tmp;
-				std::cout<<"distance: "<<dist<<std::endl;
-				this->_reAlloc(this->_size + 1);
-				while(i < this->_size + 1) 
+			size_type distance_back(iterator first, iterator end)
+			{
+				size_type dis = 0;
+				while(1)
 				{
-					if(i < dist)
-					 	this->_allocator.construct(&this->_data[i], *pos1);
-					else if (i == dist)
-					{
-					 	this->_allocator.construct(&this->_data[i], val);
-					}
-					else
-					 	this->_allocator.construct(&this->_data[i], *pos1);
-					i++;
-					pos1++;
+					dis++;
+					first--;
+					if (first == end)
+						break;
 				}
-				return pos1;
-				
+				return dis;
+			}
+
+			iterator insert(iterator position, const value_type& val)
+            {
+				size_type index = position - begin();
+            	if (this->_size >= this->_capacity)
+            	{
+            	    _smart_reAlloc(this->_size + 1);
+            	    position = begin() + index;
+            	}
+            	iterator last = end() - 1;
+            	while (last >= position)
+            	{
+            	    *(last + 1) = *last;
+            	    --last;
+            	}
+            	this->_allocator.construct(&(*(position)), val);
+            	++this->_size;
+            	return (begin() + index);
             }
 
-            void insert(iterator pos, size_type n,const value_type& val)
+            void insert(iterator position, size_type n,const value_type& val)
             {
-                std::cout<<"\ninsert 3 parameter"<<std::endl;
-
-				size_type index = pos - this->begin();
-                this->_open_space(n, index);
-                for (size_type i = 0; i < n; i++)
-                    this->_allocator.construct(&this->_data[index + i], val);
-                this->_size += n;    
-
+                size_type index = position - begin();
+            	if (this->_size + n > this->_capacity)
+            	{
+            	    _smart_reAlloc(this->_size + n);
+            	    position = begin() + index;
+            	}
+            	iterator last = end() - 1;
+            	while (last >= position)
+            	{
+            	    *(last + n) = *last;
+            	    --last;
+            	}
+            	for (iterator it = position; it != position + n; ++it)
+            	    this->_allocator.construct(&(*it), val);
+            	this->_size += n;
             }
 
             //emplace c++11
@@ -361,13 +376,12 @@ shrink_to_fit	Shrink to fit (public member function)
                 return pos_start;
             }
 
-		    void push_back(value_type value)
-            {
-                this->_smart_reAlloc(this->_size + 1);
-                this->_allocator.construct(&this->_data[this->_size], value);
-                this->_size++;
-
-            }
+		   void push_back(value_type value)
+			{
+			    this->_smart_reAlloc(this->_size + 1);
+            	this->_allocator.construct(&this->_data[this->_size], value);
+            	this->_size++;
+			}
 
 			//emplace_back
 
@@ -461,11 +475,10 @@ shrink_to_fit	Shrink to fit (public member function)
             }
 
 			//memory functions
-            void	_reAlloc(size_type newCapacity)
+          
+			void	_reAlloc(size_type newCapacity)
 			{
 				value_type	*newBlock;
-                //std::cout<<"_reAlloc _capacity : "<<this->_capacity<<"new capacity: "<<newCapacity<<std::endl;
-
 				if (newCapacity < this->_capacity)
 					return ;
 				newBlock = this->_allocator.allocate(newCapacity);
@@ -474,7 +487,11 @@ shrink_to_fit	Shrink to fit (public member function)
 				this->_allocator.deallocate(this->_data, this->_capacity);
 				this->_data = newBlock;
 				this->_capacity = newCapacity;
-			}
+			} 
+
+						
+
+
 
 			void	_smart_reAlloc(size_type newCapacity)
 			{
@@ -490,12 +507,78 @@ shrink_to_fit	Shrink to fit (public member function)
 					this->_reAlloc(this->_size * 2);
 			}
 
-            void _open_space(size_type n, size_type index_to_insert)
+
+
+
+
+
+			void _open_space(size_type n, size_type index_to_insert)
 			{
-				this->_smart_reAlloc(this->_size + n);
-				for (size_type i = this->_size + n - 1; i > (index_to_insert + n - 1); i--)
-					this->_allocator.construct(&this->_data[i], this->_data[i - n]);
+			    this->_smart_reAlloc(this->_size + n);
+
+			    for (size_type i = this->_size + n - 1; i >= index_to_insert; i--)
+			        this->_allocator.construct(&this->_data[i], this->_data[i - n]);
+
+			    this->_size += n;
 			}
+
+/* void openSpace(size_type n, size_type index)
+{
+    if (index > this->_size)
+        throw std::out_of_range("Index is out of range.");
+
+    if (n == 0)
+        return;
+
+    size_type newSize = this->_size + n;
+    size_type oldCapacity = this->_capacity;
+	if (oldCapacity == 0)
+		oldCapacity = 1;
+    // If the new size exceeds the current capacity, reallocate the memory.
+    if (newSize > oldCapacity)
+    {
+        // Double the capacity to reduce the number of reallocations.
+        while (newSize > oldCapacity)
+            oldCapacity *= 2;
+
+        reallocateMemory(oldCapacity);
+    }
+
+    // Move the elements after the insertion point to make space for the new elements.
+    for (size_type i = this->_size - 1; i >= index; i--)
+    {
+        this->_allocator.construct(&this->_data[i + n], std::move(this->_data[i]));
+        this->_allocator.destroy(&this->_data[i]);
+    }
+
+    // Construct the new elements in the open space.
+    for (size_type i = index; i < index + n; i++)
+    {
+        this->_allocator.construct(&this->_data[i], value_type());
+    }
+
+    this->_size = newSize;
+}
+ */
+
+
+
+void reallocateMemory(size_type newCapacity)
+{
+    pointer newData = this->_allocator.allocate(newCapacity);
+
+    for (size_type i = 0; i < _size; i++)
+    {
+        this->_allocator.construct(&newData[i], std::move(this->_data[i]));
+        this->_allocator.destroy(&this->_data[i]);
+    }
+
+    this->_allocator.deallocate(this->_data, this->_capacity);
+    this->_data = newData;
+    this->_capacity = newCapacity;
+}
+
+
 
 
 

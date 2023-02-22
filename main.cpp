@@ -6,12 +6,12 @@
 
  void print_my_vector(ft::vector<int> v)
 {
+    
     ft::vector<int>::iterator it = v.begin();
-    std::cout<<"print MY vector";
     std::cout<< "\n-------------\n";
     std::cout<<"capacity: "<<v.capacity()<<" size: "<<v.size()<<std::endl;
     
-	std::cout<<"datas ---> ";
+	std::cout<<"my datas ---> ";
     while(it != v.end())
         std::cout<<*it++<<" ";
     std::cout<< "\n-------------\n";
@@ -19,12 +19,12 @@
 
 void print_orj_vector(std::vector<int> v)
 {
+
     std::vector<int>::iterator it = v.begin();
-    std::cout<<"print ORJ vector";
     std::cout<< "\n-------------\n";
     std::cout<<"capacity: "<<v.capacity()<<" size: "<<v.size()<<std::endl;
     
-	std::cout<<"datas ---> ";
+	std::cout<<"orj datas ---> ";
     while(it != v.end())
         std::cout<<*it++<<" ";
     std::cout<< "\n-------------\n";
@@ -143,11 +143,11 @@ int main()
 	std::cout<< "***iterator rend() const_iterator rend()***\n" <<std::endl;
 	ft::vector<int> myVecREnd;
 	ft::vector<int>::reverse_iterator myItREnd;
-	ft::vector<int>::const_iterator myConstItREnd;
+	/* ft::vector<int>::const_iterator myConstItREnd; */
 
 	std::vector<int> orjVecREnd;
 	std::vector<int>::reverse_iterator orjItREnd;
-	std::vector<int>::const_iterator constOrjItREnd;
+	/* std::vector<int>::const_iterator constOrjItREnd; */
 
 	myVecREnd.push_back(1);
 	myVecREnd.push_back(2);
@@ -224,7 +224,7 @@ int main()
 	std::vector<int> orjVecReSize;
 
 
-	myVecReSize.push_back(1);
+	myVecReSize.push_back(11);
 	myVecReSize.push_back(2);
 	myVecReSize.push_back(3);
 	int myFirstSize = myVecReSize.size();
@@ -276,34 +276,71 @@ int main()
 
 
 
-	std::cout<< "***insert()***\n" <<std::endl;
+	std::cout<< "***insert with 2 parameters***\n" <<std::endl;
 	
 	ft::vector<int> myVecInsert;
 	std::vector<int> orjVecInsert;
 
+	myVecInsert.insert(myVecInsert.begin(), 0);
+	print_my_vector(myVecInsert);
+	orjVecInsert.insert(orjVecInsert.begin(), 0);
+	print_orj_vector(orjVecInsert);
 
 	myVecInsert.push_back(1);
 	myVecInsert.push_back(2);
 	myVecInsert.push_back(3);
-	myVecInsert.insert(myVecInsert.begin(), 200);
-	//myVecInsert.insert(myVecInsert.begin(), 5);
-	//print_my_vector(myVecReSize);
-	ft::vector<int>::iterator it1;
-	std::cout << "\n";
-	for (it1=myVecInsert.begin(); it1<myVecInsert.end(); it1++)
-    	std::cout << ' ' << *it1;
-	std::cout<<"\n camoooon \n";
+	print_my_vector(myVecInsert);
 
 	orjVecInsert.push_back(1);
 	orjVecInsert.push_back(2);
 	orjVecInsert.push_back(3);
-	orjVecInsert.insert(orjVecInsert.begin(), 200);
-	//orjVecInsert.insert(orjVecInsert.begin(), 5);
-	//print_orj_vector(orjVecReSize);
-	 std::vector<int>::iterator it;
-	  std::cout << "\n";
-	for (it=orjVecInsert.begin(); it<orjVecInsert.end(); it++)
-    std::cout << ' ' << *it;
+	print_orj_vector(orjVecInsert);
+
+	std::cout<<"insertion starting~~~~~~~~>";
+	myVecInsert.insert(myVecInsert.begin(), -1);
+	print_my_vector(myVecInsert);
+	orjVecInsert.insert(orjVecInsert.begin(), -1);
+	print_orj_vector(orjVecInsert);
+
+	myVecInsert.insert(myVecInsert.begin() + 2, 200);
+	print_my_vector(myVecInsert);
+	orjVecInsert.insert(orjVecInsert.begin() + 2, 200);
+	print_orj_vector(orjVecInsert);
+
+	myVecInsert.insert(myVecInsert.end(), 5);
+	print_my_vector(myVecInsert);
+	orjVecInsert.insert(orjVecInsert.end(), 5);
+	print_orj_vector(orjVecInsert);
+
+	myVecInsert.insert(myVecInsert.end() - 1, 4);
+	print_my_vector(myVecInsert);
+	orjVecInsert.insert(orjVecInsert.end() - 1, 4);
+	print_orj_vector(orjVecInsert);
+
+
+
+
+	std::cout<< "***insert with 3 parameters***\n" <<std::endl;
+
+	myVecInsert.insert(myVecInsert.begin(), 2, -3);
+	print_my_vector(myVecInsert);
+	orjVecInsert.insert(orjVecInsert.begin(), 2, -3);
+	print_orj_vector(orjVecInsert);
+
+	myVecInsert.insert(myVecInsert.begin() + 1, 2, -2);
+	print_my_vector(myVecInsert);
+	orjVecInsert.insert(orjVecInsert.begin() + 1, 2, -2);
+	print_orj_vector(orjVecInsert);
+
+	myVecInsert.insert(myVecInsert.begin() + 1, 0, 9999);
+	print_my_vector(myVecInsert);
+	orjVecInsert.insert(orjVecInsert.begin() + 1, 0, 9999);
+	print_orj_vector(orjVecInsert);
+
+	myVecInsert.insert(myVecInsert.end() - 1, 2, 7777);
+	print_my_vector(myVecInsert);
+	orjVecInsert.insert(orjVecInsert.end() - 1, 2, 7777);
+	print_orj_vector(orjVecInsert);
 
 
 
