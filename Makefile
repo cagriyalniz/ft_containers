@@ -1,6 +1,6 @@
 NAME = container
 
-FILES = main.cpp
+FILES = main.cpp test.cpp
 
 CC = c++ 
 

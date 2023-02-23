@@ -40,10 +40,8 @@ namespace ft
             typedef typename Alloc::const_pointer           const_pointer;   //Pointer to const element
             typedef ft::RandomAccessIterator<value_type>             iterator;
             typedef ft::RandomAccessIterator<const value_type>		const_iterator;
-            //typedef ft::ConstVectorIterator<T>            const_iterator;
             typedef ft::ReverseIterator<iterator>          		reverse_iterator;
             typedef ft::ReverseIterator<const_iterator>          		const_reverse_iterator;
-            //typedef ft::ConstReverseVectorIterator<T>     const_reverse_iterator;
             typedef ptrdiff_t                               difference_type; //	Difference between two pointers/iterators // #include <stddef.h>
             typedef std::size_t                             size_type;
 			
@@ -204,14 +202,21 @@ shrink_to_fit	Shrink to fit (public member function)
 	*/
 
 		//------------Element Access------------------------//
-			//at
 			//operator[]
+			//at
 			//front
 			//back
 			//data
 
-
-
+			reference operator[](size_type n)
+			{
+				return (_data[n]);
+			}
+			
+			const_reference operator[] (size_type n) const
+			{
+				return (_data[n]);
+			}
 
 			reference at(size_type pos)
 			{
@@ -219,11 +224,7 @@ shrink_to_fit	Shrink to fit (public member function)
 				return (this->_data[pos]);
 			}
 
-			reference operator[](int pos)
-			{
-				//this->checkIndex(pos);
-				return (_data[pos]);
-			}
+
 
 			allocator_type get_allocator() const
         	{
@@ -663,3 +664,21 @@ swap					Exchange contents of vectors (function template)
 
 
 }
+
+
+
+//test
+ void print_my_vector(ft::vector<int> v);
+void print_orj_vector(std::vector<int> v);
+
+void testBegin();
+void testEnd();
+void testRbegin();
+void testRend();
+void testSize();
+void testMaxSize();
+void testResize();
+void testCapacity();
+void testEmpty();
+void testReserve();
+void testBoxBrackets();
