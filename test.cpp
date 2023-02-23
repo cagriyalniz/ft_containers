@@ -17,6 +17,19 @@
     std::cout<< "\n.....................\n";
 }
 
+ void print_my_vector(ft::vector<std::string> v)
+{
+    
+    ft::vector<std::string>::iterator it = v.begin();
+    std::cout<< "\n---my vector-----\n";
+    std::cout<<"capacity: "<<v.capacity()<<" size: "<<v.size()<<std::endl;
+    std::cout<< ".....................\n";
+	std::cout<<"datas ---> ";
+    while(it != v.end())
+        std::cout<<*it++<<" ";
+    std::cout<< "\n.....................\n";
+}
+
 void print_orj_vector(std::vector<int> v)
 {
 
@@ -396,10 +409,10 @@ void testBoxBrackets()
     const int a = orjVecBoxBrackets[0];
     const int b = myVecBoxBrackets[0];
     if (a == b)
-        std::cout<<"OK"<<std::endl;
+        std::cout<<"const OK"<<std::endl;
     else
     {
-        std::cout<<"FAIL"<<std::endl;
+        std::cout<<"const FAIL"<<std::endl;
     }
 
     for (size_t i = 0; i < myVecBoxBrackets.size(); i++)
@@ -412,4 +425,270 @@ void testBoxBrackets()
         }
     }    
 	std::cout<< "--------------end of the BoxBrackets--------------------------------\n\n" <<std::endl;
+}
+
+void testAt()
+{
+	std::cout<< "***referece at()***\n" <<std::endl;
+	
+	ft::vector<int> myVecAt;
+	std::vector<int> orjVecAt;
+
+    orjVecAt.push_back(11);
+    orjVecAt.push_back(22);
+    orjVecAt.push_back(33);
+
+    myVecAt.push_back(11);
+    myVecAt.push_back(22);
+    myVecAt.push_back(33);
+
+    const int a = orjVecAt.at(0);
+    const int b = myVecAt.at(0);
+    if (a == b)
+        std::cout<<"const OK"<<std::endl;
+    else
+    {
+        std::cout<<"const FAIL"<<std::endl;
+    }
+
+    for (size_t i = 0; i < myVecAt.size(); i++)
+    {
+        if (myVecAt.at(i) == orjVecAt.at(i))
+            std::cout<<"OK"<<std::endl;
+        else
+        {
+            std::cout<<"FAIL for "<<i<<". element"<<std::endl;
+        }
+    }
+
+	try
+	{
+		orjVecAt.at(20);
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << e.what() << '\n';
+	}
+
+	try
+	{
+		myVecAt.at(20);
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << e.what() << '\n';
+	}
+	std::cout<< "--------------end of the at--------------------------------\n\n" <<std::endl;
+}
+
+void testFront()
+{
+	std::cout<< "***reference front() const_reference front()***\n" <<std::endl;
+	
+	ft::vector<int> myVecFront;
+	std::vector<int> orjVecFront;
+
+
+	// std::cout<< orjVecFront.front() << std::endl; -- segfault
+	// std::cout<< myVecFront.front() << std::endl; -- segfault
+
+	
+
+	for(size_t i = 0; i <4; i++)
+	{
+		myVecFront.push_back(i);
+		orjVecFront.push_back(i);
+		if (myVecFront.front() == orjVecFront.front())
+			std::cout<< "OK"<<std::endl;
+		else
+			std::cout<< "FAIL for "<<i<<". element"<<std::endl;
+	}
+
+	myVecFront.front() = 9;
+	orjVecFront.front() = 9;
+	if (myVecFront.front() == orjVecFront.front())
+			std::cout<< "OK"<<std::endl;
+	else
+		std::cout<< "FAIL for assign"<<std::endl;
+	
+	const int a = myVecFront.front();
+	const int b = orjVecFront.front();
+
+	if (a == b)
+	    std::cout<<"const OK"<<std::endl;
+    else
+		std::cout<<"FAIL for const"<<std::endl;
+
+	std::cout<< "-----------------end of the front-----------------------------\n\n" <<std::endl;
+}
+
+void testBack()
+{
+	std::cout<< "***reference back() const_reference back()***\n" <<std::endl;
+	
+	ft::vector<int> myVecBack;
+	std::vector<int> orjVecBack;
+
+
+	// std::cout<< orjVecBack.front() << std::endl; -- segfault
+	// std::cout<< myVecBack.front() << std::endl; -- segfault
+
+	
+
+	for(size_t i = 0; i <4; i++)
+	{
+		myVecBack.push_back(i);
+		orjVecBack.push_back(i);
+		if (myVecBack.back() == orjVecBack.back())
+			std::cout<< "OK"<<std::endl;
+		else
+			std::cout<< "FAIL for "<<i<<". element"<<std::endl;
+	}
+
+	myVecBack.back() = 9;
+	orjVecBack.back() = 9;
+	if (myVecBack.back() == orjVecBack.back())
+			std::cout<< "OK"<<std::endl;
+	else
+		std::cout<< "FAIL for assign"<<std::endl;
+	
+	const int a = myVecBack.back();
+	const int b = orjVecBack.back();
+
+	if (a == b)
+	    std::cout<<"const OK"<<std::endl;
+    else
+		std::cout<<"FAIL for const"<<std::endl;
+
+	std::cout<< "-----------------end of the back-----------------------------\n\n" <<std::endl;
+}
+
+void testAssign()
+{
+	std::cout<< "***void assign()***\n" <<std::endl;
+	
+	ft::vector<int> myVecAssign;
+	std::vector<int> orjVecAssign;
+
+
+	std::cout<<"assign with two parameters"<<std::endl;
+	for(int i = 0; i < 3; i++)
+	{
+		orjVecAssign.assign(i + 1, i + 1);
+		myVecAssign.assign(i + 1, i + 1);
+		print_orj_vector(orjVecAssign);
+		print_my_vector(myVecAssign);
+	}
+
+	for(int i = 3; i > 0; i--)
+	{
+		orjVecAssign.assign(i, i );
+		myVecAssign.assign(i, i );
+		print_orj_vector(orjVecAssign);
+		print_my_vector(myVecAssign);
+	}
+
+	for(int i = 0; i < 30; i++)
+	{
+		orjVecAssign.push_back(i + 1);
+		myVecAssign.push_back(i + 1);
+	}
+
+	std::cout<<"assign with three parameters"<<std::endl;
+	std::vector<int> newOrjVecAssign;
+	ft::vector<int> newMyVecAssign;
+
+	newOrjVecAssign.push_back(0);
+
+	newOrjVecAssign.assign(orjVecAssign.begin() + 5, orjVecAssign.begin() + 12);
+	newMyVecAssign.assign(myVecAssign.begin() + 5, myVecAssign.begin() + 12);
+	print_orj_vector(newOrjVecAssign);
+	print_my_vector(newMyVecAssign);
+
+	/* ft::vector<std::string> myVecstr;
+	myVecstr.push_back("str");
+	myVecstr.push_back("my");
+	myVecstr.push_back("1");
+	myVecstr.push_back("2");
+	myVecstr.push_back("33");
+	myVecstr.push_back("4");
+	ft::vector<std::string> newstrVecAssign;
+	newstrVecAssign.assign(myVecstr.begin(), myVecstr.begin() + 3);
+	print_my_vector(newstrVecAssign); */
+
+	std::cout<< "-----------------end of the assign-----------------------------\n\n" <<std::endl;
+}
+
+void testPushBack()
+{
+	std::cout<< "***void pushback()***\n" <<std::endl;
+	
+	ft::vector<int> myVecPushBack;
+	std::vector<int> orjVecPushBack;
+
+	for (int i = 0; i < 42; i++)
+	{
+		myVecPushBack.push_back(i*2 + 11);
+		orjVecPushBack.push_back(i*2 + 11);
+	}
+	print_orj_vector(orjVecPushBack);
+	print_my_vector(myVecPushBack);
+
+	std::cout<< "-----------------end of the pushback-----------------------------\n\n" <<std::endl;
+}
+
+void testPopBack()
+{
+	std::cout<< "***void popback()***\n" <<std::endl;
+	
+	ft::vector<int> myVecPopBack;
+	std::vector<int> orjVecPopBack;
+
+	for (int i = 0; i < 42; i++)
+	{
+		myVecPopBack.push_back(i*2 + 11);
+		orjVecPopBack.push_back(i*2 + 11);
+	}
+
+	for (int i = 0; i < 32; i++)
+	{
+		myVecPopBack.pop_back();
+		orjVecPopBack.pop_back();
+	}
+
+
+	print_orj_vector(orjVecPopBack);
+	print_my_vector(myVecPopBack);
+
+	std::cout<< "-----------------end of the popback-----------------------------\n\n" <<std::endl;
+}
+
+void testInsert()
+{
+	std::cout<< "***iterator insert () void insert()***\n" <<std::endl;
+	
+	ft::vector<int> myVecInsert;
+	std::vector<int> orjVecInsert;
+
+	for (int i = 0; i < 12; i++)
+	{
+		orjVecInsert.insert(orjVecInsert.end(), 1);
+		myVecInsert.insert(myVecInsert.end(), 2);
+	}
+
+	print_orj_vector(orjVecInsert);
+	print_my_vector(myVecInsert);
+
+	orjVecInsert.insert(orjVecInsert.begin() + orjVecInsert.size(), 2, 3);
+	myVecInsert.insert(myVecInsert.begin() + myVecInsert.size(), 2, 3);
+	
+	print_orj_vector(orjVecInsert);
+	print_my_vector(myVecInsert);
+  	std::vector<int>::iterator it = orjVecInsert.begin();
+	orjVecInsert.insert(it + 2, myVecInsert.begin(), myVecInsert.end());
+	print_orj_vector(orjVecInsert);
+
+
+
+	std::cout<< "-----------------end of the insert-----------------------------\n\n" <<std::endl;
 }

@@ -38,9 +38,16 @@ int main()
 	testResize(); 
 	testCapacity();
 	testEmpty();
-	testReserve();*/
+	testReserve();
 //element access
 	testBoxBrackets();
+	testAt();
+	testFront();
+	testBack();
+	testAssign();
+	testPushBack();
+	testPopBack();*/
+	testInsert();
 
 /* 
 	std::cout<< "***insert with 2 parameters***\n" <<std::endl;

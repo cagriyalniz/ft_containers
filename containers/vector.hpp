@@ -197,7 +197,7 @@ shrink_to_fit	Shrink to fit (public member function)
 	at			Access element (public member function)
 	front		Access first element (public member function)
 	back		Access last element (public member function)
-	data		Access data (public member function)
+	data		Access data (public member function) ? bunu kimse yazmamış
 
 	*/
 
@@ -218,26 +218,24 @@ shrink_to_fit	Shrink to fit (public member function)
 				return (_data[n]);
 			}
 
-			reference at(size_type pos)
+			reference at(size_type n)
 			{
-				this->checkIndex(pos);
-				return (this->_data[pos]);
+				this->checkIndex(n);
+				return (this->_data[n]);
 			}
 
-
-
-			allocator_type get_allocator() const
-        	{
-            return (this->_allocator);
-        	}
-
-/* 			reference operator[](size_type pos) const
+			const_reference at (size_type n) const
 			{
-				this->checkIndex(pos);
-				return (this->_data[pos]);
-			} */
+				this->checkIndex(n);
+				return (this->_data[n]);
+			}
 
 			reference front(void)
+			{
+				return (this->_data[0]);
+			}
+
+			const_reference front(void) const
 			{
 				return (this->_data[0]);
 			}
@@ -246,6 +244,12 @@ shrink_to_fit	Shrink to fit (public member function)
 			{
 				return (this->_data[this->_size - 1]);
 			}
+
+			const_reference back(void) const
+			{
+				return (this->_data[this->_size - 1]);
+			}
+
 
         //------------Element Access end------------------------//
 
@@ -262,48 +266,78 @@ shrink_to_fit	Shrink to fit (public member function)
 	emplace_back	Construct and insert element at the end (public member function)
 	*/
 			//------------Modifiers Functions------------------------//
-			//clear
-			//insert
-			//emplace c++11
-			//erase
+			//assign
 			//push_back
-			//emplace_bacj c++11
 			//pop_back
+			//insert
+			//erase
 			//swap
+			//clear
+			//emplace c++11
+			//emplace_back c++11
+			/*
+			typename ft::enable_if<!ft::is_integral<InputIt>::value, bool>::type = true
+			Bu kısım, bir SFINAE (Substitution Failure Is Not An Error) tekniği kullanılarak fonksiyonun template argümanlarının 
+			türlerine göre derlenebilirlik durumunu kontrol ediyor.
+
+			typename ft::enable_if<!ft::is_integral<InputIt>::value, bool>::type = true ifadesi, InputIt türünün int veya long gibi tamsayı türleri olmadığı durumlarda
+			(yani !ft::is_integral<InputIt>::value durumunda) bu template fonksiyonunun tanımlanması için bir koşul olarak kullanılıyor. 
+			Eğer bu koşul sağlanırsa, bool türünden bir değer döndürülüyor ve bu değer varsayılan olarak true olarak atanıyor.
+
+			Bu teknik, bir fonksiyonun şablon parametreleri tarafından belirlenen türlerin belirli özellikleri taşıması gerektiği durumlarda kullanılabilir. 
+			Burada InputIt türünün tamsayı olmaması gerektiği durumlarda, enable_if ile birlikte yazılan koşulun sağlanmaması durumunda derleme hatası alınmaz, 
+			ancak bu fonksiyonun şablonu, diğer uygun koşullar sağlandığında hala derlenebilir olur.
+			*/
+
+			template< class InputIt >
+			void assign(InputIt first, InputIt last, typename ft::enable_if<!ft::is_integral<InputIt>::value, bool>::type = true)
+			{
+				if (this->_data)// Vektör bellekte bir yer kaplıyorsa, onu serbest bırak
+					this->_allocator.deallocate(this->_data, this->_capacity);
+				this->_size = last - first;// Vektörün yeni boyutunu hesapla ve _size'a ata
+				if (this->_capacity < this->_size)// Eğer vektör kapasitesi, boyuttan küçükse, kapasiteyi boyuta eşitle
+					this->_capacity = this->_size;
+				this->_data = this->_allocator.allocate(this->_capacity);// Yeni kapasite kadar bellekte yer ayır
+				for (size_type i = 0; i < this->_size; i++)// Vektöre elemanları ekle
+					this->_allocator.construct(&this->_data[i], *(first + i));
+			}
+
+			void assign (size_type n, const value_type& val)
+			{
+				clear();
+				if (n > this->_capacity)
+				{
+					this->_allocator.deallocate(this->_data, this->_capacity);
+					this->_data = this->_allocator.allocate(n);
+				}
+
+				this->_capacity = n;
+				this->_size = n;
+				for (size_type i = 0; i < this->_size; i++)
+					this->_allocator.construct(&this->_data[i],val);
+			}
+
 			
-            void clear()
+			void push_back(value_type value)
+			{
+			    if (this->_size == this->_capacity)
+					reserve(this->_capacity == 0 ? 1 : this->_capacity + 1);
+            	this->_allocator.construct(&this->_data[this->_size], value);
+            	this->_size++;
+			}
+
+			
+
+            void pop_back(void)
             {
-                this->_allocator.destroy(this->_data);
-                this->_size = 0;
+                if (this->_size == 0)
+                    return ;
+                this->_allocator.destroy(this->_data + this->_size - 1);
+                this->_size--;
+                this->_capacity--;
             }
-
-			size_type distance_forward(iterator first, iterator end)
-			{
-				size_type dis = 0;
-				while(1)
-				{
-					dis++;
-					first++;
-					if (first == end)
-						break;
-
-				}
-				return dis;
-			}
-
-			size_type distance_back(iterator first, iterator end)
-			{
-				size_type dis = 0;
-				while(1)
-				{
-					dis++;
-					first--;
-					if (first == end)
-						break;
-				}
-				return dis;
-			}
-
+			
+			
 			iterator insert(iterator position, const value_type& val)
             {
 				size_type index = position - begin();
@@ -342,6 +376,12 @@ shrink_to_fit	Shrink to fit (public member function)
             	this->_size += n;
             }
 
+			/* template <class InputIterator>
+    		void insert (iterator position, InputIterator first, InputIterator last, typename enable_if<!is_integral<InputIterator>::value>::type* = 0)
+			{
+
+			} */
+
             //emplace c++11
 
 			iterator erase(iterator pos)
@@ -377,22 +417,7 @@ shrink_to_fit	Shrink to fit (public member function)
                 return pos_start;
             }
 
-		   void push_back(value_type value)
-			{
-			    this->_smart_reAlloc(this->_size + 1);
-            	this->_allocator.construct(&this->_data[this->_size], value);
-            	this->_size++;
-			}
 
-			//emplace_back
-
-            void pop_back(void)
-            {
-                if (this->_size == 0)
-                    return ;
-                this->_allocator.destroy(this->_data + this->_size - 1);
-                this->_size--;
-            }
 
 
 
@@ -415,30 +440,14 @@ shrink_to_fit	Shrink to fit (public member function)
 				this->_data = tempArray; 
 			}
 
+			 void clear()
+            {
+                this->_allocator.destroy(this->_data);
+                this->_size = 0;
+            }
 
-			template< class InputIt >
-			void assign(InputIt first,
-						InputIt last,
-						typename ft::enable_if<!ft::is_integral<InputIt>::value, bool>::type = false)
-			{
-				if (this->_data)
-					this->_allocator.deallocate(this->_data, this->_capacity);
-				this->_size = last - first;
-				if (this->_capacity < this->_size)
-					this->_capacity = this->_size;
-				this->_data = this->_allocator.allocate(this->_capacity);
-				for (size_type i = 0; i < this->_size; i++)
-					this->_allocator.construct(&this->_data[i], *(first + i));
-			}
+			//emplace_back
 
-			void assign (size_type n, const value_type& val)
-			{
-				reserve(n);
-				clear();
-				this->_size = n;
-				for (size_type i = 0; i < this->_size; i++)
-					this->_allocator.construct(&this->_data[i],val);
-			}
 		//------------Modifiers Functions end------------------------//
 
 
@@ -450,10 +459,43 @@ shrink_to_fit	Shrink to fit (public member function)
 		//------------Allocator Functions------------------------//
 
 
+			allocator_type get_allocator() const
+        	{
+            return (this->_allocator);
+        	}
+
 		//------------Allocator Functions end------------------------//
 
 			
 			//helping funcs
+
+			size_type distance_forward(iterator first, iterator end)
+			{
+				size_type dis = 0;
+				while(1)
+				{
+					dis++;
+					first++;
+					if (first == end)
+						break;
+
+				}
+				return dis;
+			}
+
+			size_type distance_back(iterator first, iterator end)
+			{
+				size_type dis = 0;
+				while(1)
+				{
+					dis++;
+					first--;
+					if (first == end)
+						break;
+				}
+				return dis;
+			}
+
 			size_type find_new_capacity(size_type n)
             {
                 if (this->_capacity == 0)
@@ -682,3 +724,10 @@ void testCapacity();
 void testEmpty();
 void testReserve();
 void testBoxBrackets();
+void testAt();
+void testFront();
+void testBack();
+void testAssign();
+void testPushBack();
+void testPopBack();
+void testInsert();

@@ -64,6 +64,7 @@
         "deque": "cpp",
         "map": "cpp",
         "stack": "cpp",
-        "memory_resource": "cpp"
+        "memory_resource": "cpp",
+        "__functional_03": "cpp"
     }
 }
