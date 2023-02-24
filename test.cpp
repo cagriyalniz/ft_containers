@@ -57,12 +57,15 @@ void testBegin()
 	myVecBegin.push_back(1);
 	myItBegin = myVecBegin.begin();
 	myConstItBegin = myVecBegin.begin();
-	std::cout <<"my vector: "<< *myItBegin<< " " << *myConstItBegin << std::endl;
 
 	orjVecBegin.push_back(1);
 	orjItBegin = orjVecBegin.begin();
 	constOrjItBegin = orjVecBegin.begin();
-	std::cout<<"orj vector: "<< *orjItBegin<< " " << *constOrjItBegin << std::endl;
+
+	if (*myVecBegin.begin() == *orjVecBegin.begin() && *myConstItBegin == *constOrjItBegin)
+		std::cout<<"OK"<<std::endl;
+	else
+		std::cout<<"FAIL for begin"<<std::endl;
 
 	std::cout<< "-----------------end of the begin-----------------------------\n\n" <<std::endl;
 }
@@ -83,32 +86,18 @@ void testEnd()
 	//2 1
 	myItEnd = myVecEnd.end() - 1;
 	myConstItEnd = myVecEnd.end() - 1;
-	std::cout <<"my vector: "<< *myItEnd<< " " << *myConstItEnd << std::endl;
 
 	orjVecEnd.push_back(1);
 	orjVecEnd.push_back(2);
 	//2 1
 	orjItEnd = orjVecEnd.end() - 1;
 	constOrjItEnd = orjVecEnd.end() - 1;
-	std::cout<<"orj vector: "<< *constOrjItEnd<< " " << *constOrjItEnd << std::endl;
-	/*
-		Returns an iterator referring to the past-the-end element in the vector container.
-		The past-the-end element is the theoretical element that would follow the last element in the vector. 
-		It does not point to any element, and thus shall not be dereferenced.
 
-		Vektör container'ındaki past-the-end öğesine başvuran bir iterator döndürür. 
-		Past-the-end öğesi, vektördeki son öğeyi takip edecek olan teorik öğedir. 
-		Herhangi bir öğeye işaret etmez ve bu nedenle atıf yapılmayacaktır.
-	*/
 
-	//If the container is empty, this function returns the same as vector::begin.
-	ft::vector<int> myVecEmptyEnd;
-	std::vector<int> orjVecEmptyEnd;
-	std::cout<<"empty vector test: \n";
-/* 	if (myVecEmptyEnd.begin() == myVecEmptyEnd.end())
-		std::cout<<"True \n"; */
-	if (orjVecEmptyEnd.begin() == orjVecEmptyEnd.end())
-		std::cout<<"True \n";
+	if (*myVecEnd.end() == *orjVecEnd.end() && *myConstItEnd == *constOrjItEnd)
+		std::cout<<"OK"<<std::endl;
+	else
+		std::cout<<"FAIL for end"<<std::endl;
 
 	std::cout<< "----------------end of the end------------------------------\n\n" <<std::endl;
 }
@@ -130,7 +119,6 @@ void testRbegin()
 	myItRBegin = myVecRBegin.rbegin();
 	//orijinalde de çalışmıyor
 	//myConstItRBegin = myVecRBegin.rbegin();
-	std::cout <<"my vector: "<< *myItRBegin<< " " /* << *myConstItRBegin */ << std::endl;
 
 	orjVecRBegin.push_back(1);
 	orjVecRBegin.push_back(2);
@@ -138,7 +126,11 @@ void testRbegin()
 	//3 2 1
 	orjItRBegin = orjVecRBegin.rbegin();
 	//constOrjItRBegin = orjVecRBegin.rbegin();
-	std::cout<<"orj vector: "<< *orjItRBegin<< " " /* << *constOrjItRBegin */ << std::endl;
+
+	if (*myVecRBegin.rbegin() == *orjVecRBegin.rbegin())
+	    std::cout<<"OK"<<std::endl;
+    else
+        std::cout<<"FAIL for rbegin"<<std::endl;
 
 	std::cout<< "---------------end of the rbegin-------------------------------\n\n" <<std::endl;
 }
@@ -157,18 +149,21 @@ void testRend()
 	myVecREnd.push_back(1);
 	myVecREnd.push_back(2);
 	myVecREnd.push_back(3);
-	myItREnd = myVecREnd.rbegin();
+	myItREnd = myVecREnd.rend();
 	//orijinalde de çalışmıyor
 	//myConstItREnd = myVecREnd.rbegin();
-	std::cout <<"my vector: "<< *myItREnd<< " " /* << *myConstItREnd */ << std::endl;
 
 	orjVecREnd.push_back(1);
 	orjVecREnd.push_back(2);
 	orjVecREnd.push_back(3);
 	//3 2 1
-	orjItREnd = orjVecREnd.rbegin();
+	orjItREnd = orjVecREnd.rend();
 	//constOrjItREnd = orjVecREnd.rbegin();
-	std::cout<<"orj vector: "<< *orjItREnd<< " " /* << *constOrjItREnd */ << std::endl;
+
+	if (*myVecREnd.rend() == *orjVecREnd.rend())
+        std::cout<<"OK"<<std::endl;
+    else
+        std::cout<<"FAIL for rend"<<std::endl;
 
 	std::cout<< "-------------end of the rend---------------------------------\n\n" <<std::endl;
 }
@@ -177,25 +172,29 @@ void testSize()
 {
     std::cout<< "***iterator size()***\n" <<std::endl;
 	ft::vector<int> myVecSize;
-	std::cout <<"my vector size: "<< myVecSize.size()<< std::endl;
-
 	std::vector<int> orjVecSize;
-	std::cout<<"orj vector size: "<< orjVecSize.size()<<  std::endl;
 
+	if (myVecSize.size() == orjVecSize.size())
+		std::cout<<"OK"<<std::endl;
+	else
+		std::cout<<"Fail size"<<std::endl;
 
 	myVecSize.push_back(1);
 	myVecSize.push_back(2);
 	myVecSize.push_back(3);
 	myVecSize.pop_back();
 
-	std::cout <<"my vector size: "<< myVecSize.size()<< std::endl;
 
 	orjVecSize.push_back(1);
 	orjVecSize.push_back(2);
 	orjVecSize.push_back(3);
 	orjVecSize.pop_back();
 
-	std::cout<<"orj vector size: "<< orjVecSize.size()<<  std::endl;
+	if (myVecSize.size() == orjVecSize.size())
+		std::cout<<"OK"<<std::endl;
+	else
+		std::cout<<"Fail size"<<std::endl;
+
 
 	std::cout<< "--------------end of the size--------------------------------\n\n" <<std::endl;
 }
@@ -205,25 +204,22 @@ void testMaxSize()
     std::cout<< "***iterator max_size()***\n" <<std::endl;
 	
 	ft::vector<int> myVecMaxSize;
-	std::cout <<"my vector size: "<< myVecMaxSize.max_size()<< std::endl;
-
 	std::vector<int> orjVecMaxSize;
-	std::cout<<"orj vector size: "<< orjVecMaxSize.max_size()<<  std::endl;
-
 
 	myVecMaxSize.push_back(1);
 	myVecMaxSize.push_back(2);
 	myVecMaxSize.push_back(3);
 	myVecMaxSize.pop_back();
 
-	std::cout <<"my vector size: "<< myVecMaxSize.max_size()<< std::endl;
-
 	orjVecMaxSize.push_back(1);
 	orjVecMaxSize.push_back(2);
 	orjVecMaxSize.push_back(3);
 	orjVecMaxSize.pop_back();
 
-	std::cout<<"orj vector size: "<< orjVecMaxSize.max_size()<<  std::endl;
+	if (myVecMaxSize.max_size() == orjVecMaxSize.max_size())
+		std::cout<<"OK"<<std::endl;
+	else
+		std::cout<<"Fail max_size"<<std::endl;
 
 	std::cout<< "--------------end of the max size--------------------------------\n\n" <<std::endl;
 }
@@ -241,47 +237,35 @@ void testResize()
 	myVecReSize.push_back(3);
 	int myFirstSize = myVecReSize.size();
 	myVecReSize.resize(2);//n is smaller than the current container size
-	std::cout <<"my vector first size: "<<myFirstSize<< " my last size: ~> "<<myVecReSize.size()<< std::endl;
 
 
-	orjVecReSize.push_back(1);
+	orjVecReSize.push_back(11);
 	orjVecReSize.push_back(2);
 	orjVecReSize.push_back(3);
 	int orjFirstSize = orjVecReSize.size();
 	orjVecReSize.resize(2);//n is smaller than the current container size
-	std::cout<<"orj vector first size: "<< orjFirstSize<<" orj last size: ~>"<<orjVecReSize.size()<<  std::endl;
-
+	
+	if (orjFirstSize == myFirstSize)
+		std::cout << "OK" <<std::endl;
+	else
+		std::cout<< "Fail resize"<<std::endl;
 
 	myVecReSize.resize(1, 3);//n is smaller than the current container size
-	std::cout <<"my vector size: "<< myVecReSize.size()<< std::endl;
-
 	orjVecReSize.resize(1, 3);//n is smaller than the current container size
-	std::cout<<"orj vector size: "<< orjVecReSize.size()<<  std::endl;
-
 
 	myVecReSize.resize(2);//n is bigger than the current container size
-	std::cout <<"my vector size: "<< myVecReSize.size()<< std::endl;
-
 	orjVecReSize.resize(2);//n is bigger than the current container size
-	std::cout<<"orj vector size: "<< orjVecReSize.size()<<  std::endl;
-
+	
 	myVecReSize.resize(4, 1);//n is bigger than the current container size
-	std::cout <<"my vector size: "<< myVecReSize.size()<< std::endl;
-
 	orjVecReSize.resize(4, 1);//n is bigger than the current container size
-	std::cout<<"orj vector size: "<< orjVecReSize.size()<<  std::endl;
-
-	std::cout <<"my vector cap: "<< myVecReSize.capacity()<< std::endl;
-	std::cout<<"orj vector cap: "<< orjVecReSize.capacity()<<  std::endl;
-
+	
 	myVecReSize.resize(14, 1);//n is bigger than the current container cap
-	std::cout <<"my vector cap: "<< myVecReSize.capacity()<< std::endl;
-
 	orjVecReSize.resize(14, 1);//n is bigger than the current container cap
-	std::cout<<"orj vector cap: "<< orjVecReSize.capacity()<<  std::endl;
 
-	print_my_vector(myVecReSize);
-	print_orj_vector(orjVecReSize);
+	if (myVecReSize.size() == orjVecReSize.size())
+		std::cout << "OK" <<std::endl;
+	else
+		std::cout<< "Fail resize"<<std::endl;
 
 	std::cout<< "--------------end of the resize--------------------------------\n\n" <<std::endl;
 
@@ -292,10 +276,7 @@ void testCapacity()
     std::cout<< "***iterator capacity()***\n" <<std::endl;
 	
 	ft::vector<int> myVecCapacity;
-	std::cout <<"my vector capacity: "<< myVecCapacity.capacity()<< std::endl;
-
 	std::vector<int> orjVecCapacity;
-	std::cout<<"orj vector capacity: "<< orjVecCapacity.capacity()<<  std::endl;
 
     for(int i = 0; i < 100; i++)
     {
@@ -303,8 +284,11 @@ void testCapacity()
 	    orjVecCapacity.push_back(i);
 
     }
-	std::cout <<"my vector capacity: "<< myVecCapacity.capacity()<< std::endl;
-	std::cout<<"orj vector capacity: "<< orjVecCapacity.capacity()<<  std::endl;
+
+	if (myVecCapacity.capacity() == orjVecCapacity.capacity())
+		std::cout<<"OK"<<std::endl;
+	else
+		std::cout<<"Fail capacity"<<std::endl;
 
     for (int i = 0; i < 24; i++)
     {
@@ -312,17 +296,23 @@ void testCapacity()
 	    orjVecCapacity.pop_back();
     }
 
-	std::cout <<"my vector capacity: "<< myVecCapacity.capacity()<< std::endl;
-	std::cout<<"orj vector capacity: "<< orjVecCapacity.capacity()<<  std::endl;
+	if (myVecCapacity.capacity() == orjVecCapacity.capacity())
+		std::cout<<"OK"<<std::endl;
+	else
+		std::cout<<"Fail capacity"<<std::endl;
+
 
     for (int i = 0; i < 24; i++)
     {
     	myVecCapacity.insert(myVecCapacity.begin(), i*2);
     	orjVecCapacity.insert(orjVecCapacity.begin(), i*2);
     }
+
+	if (myVecCapacity.capacity() == orjVecCapacity.capacity())
+		std::cout<<"OK"<<std::endl;
+	else
+		std::cout<<"Fail capacity"<<std::endl;
     
-    print_my_vector(myVecCapacity);
-    print_orj_vector(orjVecCapacity);
     //!!!!!insert capacity is false
 
 
@@ -571,30 +561,39 @@ void testAssign()
 	std::vector<int> orjVecAssign;
 
 
-	std::cout<<"assign with two parameters"<<std::endl;
+
 	for(int i = 0; i < 3; i++)
 	{
 		orjVecAssign.assign(i + 1, i + 1);
 		myVecAssign.assign(i + 1, i + 1);
-		print_orj_vector(orjVecAssign);
-		print_my_vector(myVecAssign);
+		if (orjVecAssign[i] == myVecAssign[i])
+			std::cout<<"OK"<<std::endl;
+		else
+			std::cout<<"FAIL for assign"<<std::endl;
+
 	}
 
 	for(int i = 3; i > 0; i--)
 	{
 		orjVecAssign.assign(i, i );
 		myVecAssign.assign(i, i );
-		print_orj_vector(orjVecAssign);
-		print_my_vector(myVecAssign);
+		if (orjVecAssign[i] == myVecAssign[i])
+			std::cout<<"OK"<<std::endl;
+		else
+			std::cout<<"FAIL for assign"<<std::endl;
 	}
 
 	for(int i = 0; i < 30; i++)
 	{
 		orjVecAssign.push_back(i + 1);
 		myVecAssign.push_back(i + 1);
+		if (orjVecAssign[i] == myVecAssign[i])
+			std::cout<<"OK"<<std::endl;
+		else
+			std::cout<<"FAIL for assign"<<std::endl;
 	}
 
-	std::cout<<"assign with three parameters"<<std::endl;
+
 	std::vector<int> newOrjVecAssign;
 	ft::vector<int> newMyVecAssign;
 
@@ -602,8 +601,15 @@ void testAssign()
 
 	newOrjVecAssign.assign(orjVecAssign.begin() + 5, orjVecAssign.begin() + 12);
 	newMyVecAssign.assign(myVecAssign.begin() + 5, myVecAssign.begin() + 12);
-	print_orj_vector(newOrjVecAssign);
-	print_my_vector(newMyVecAssign);
+
+	for(size_t i = 0; i < newOrjVecAssign.size(); i++) 
+	{
+		if (orjVecAssign[i] == myVecAssign[i])
+			std::cout<<"OK"<<std::endl;
+		else
+			std::cout<<"FAIL for assign"<<std::endl;
+	}
+
 
 	/* ft::vector<std::string> myVecstr;
 	myVecstr.push_back("str");
@@ -631,8 +637,10 @@ void testPushBack()
 		myVecPushBack.push_back(i*2 + 11);
 		orjVecPushBack.push_back(i*2 + 11);
 	}
-	print_orj_vector(orjVecPushBack);
-	print_my_vector(myVecPushBack);
+	if (*myVecPushBack.end() == *myVecPushBack.end())
+		std::cout<<"OK"<<std::endl;
+	else
+		std::cout<<"Fail for pushBack"<<std::endl;
 
 	std::cout<< "-----------------end of the pushback-----------------------------\n\n" <<std::endl;
 }
@@ -657,8 +665,10 @@ void testPopBack()
 	}
 
 
-	print_orj_vector(orjVecPopBack);
-	print_my_vector(myVecPopBack);
+	if (*myVecPopBack.end() == *orjVecPopBack.end())
+		std::cout<<"OK"<<std::endl;
+	else
+		std::cout<<"Fail for pushBack"<<std::endl;
 
 	std::cout<< "-----------------end of the popback-----------------------------\n\n" <<std::endl;
 }
@@ -672,23 +682,194 @@ void testInsert()
 
 	for (int i = 0; i < 12; i++)
 	{
-		orjVecInsert.insert(orjVecInsert.end(), 1);
-		myVecInsert.insert(myVecInsert.end(), 2);
+		orjVecInsert.insert(orjVecInsert.end(), i);
+		myVecInsert.insert(myVecInsert.end(), i);
 	}
-
-	print_orj_vector(orjVecInsert);
-	print_my_vector(myVecInsert);
 
 	orjVecInsert.insert(orjVecInsert.begin() + orjVecInsert.size(), 2, 3);
 	myVecInsert.insert(myVecInsert.begin() + myVecInsert.size(), 2, 3);
 	
-	print_orj_vector(orjVecInsert);
-	print_my_vector(myVecInsert);
-  	std::vector<int>::iterator it = orjVecInsert.begin();
-	orjVecInsert.insert(it + 2, myVecInsert.begin(), myVecInsert.end());
-	print_orj_vector(orjVecInsert);
+	for(size_t i = 0; i < myVecInsert.size(); ++i)
+	{
+		if (myVecInsert[i] == orjVecInsert[i])
+			std::cout<<"ok"<<std::endl;
+		else
+		{
+		    std::cout<<"fail for "<<i<<". index"<<std::endl;
+			break;
+		}
+	}	
 
+	ft::vector<int> myVecLastInsert;
+	std::vector<int> orjVecLastInsert;
 
+	for (int i = 0; i < 12; i++)
+	{
+		myVecLastInsert.insert(myVecLastInsert.end(), i);
+		orjVecLastInsert.insert(orjVecLastInsert.end(), i);
+	}
+
+	ft::vector<int>::iterator myLastIt = myVecLastInsert.begin();
+	std::vector<int>::iterator orjLastIt = orjVecLastInsert.begin();
+
+	myVecLastInsert.insert(myLastIt + 2, myVecInsert.begin() + 1, myVecInsert.end() - 2);
+	orjVecLastInsert.insert(orjLastIt + 2, orjVecInsert.begin() + 1, orjVecInsert.end() - 2);
+
+	for(size_t i = 0; i < myVecLastInsert.size(); ++i)
+	{
+		if (myVecLastInsert[i] == orjVecLastInsert[i])
+			std::cout<<"ok"<<std::endl;
+		else
+		{
+		    std::cout<<"fail for "<<i<<". index"<<std::endl;
+			break;
+		}
+	}	
 
 	std::cout<< "-----------------end of the insert-----------------------------\n\n" <<std::endl;
+}
+
+void testErase()
+{
+	std::cout<< "***void erase()***\n" <<std::endl;
+	
+	ft::vector<int> myVecErase;
+	std::vector<int> orjVecErase;
+
+	for (int i = 0; i < 105; i++)
+	{
+		myVecErase.push_back(i);
+		orjVecErase.push_back(i);
+	}
+
+	for (int i = 0; i < 10; i++)
+	{
+		myVecErase.erase(myVecErase.begin());
+		orjVecErase.erase(orjVecErase.begin());
+		if (myVecErase[0] == orjVecErase[0])
+			std::cout<<"OK"<<std::endl;
+		else
+		{
+			std::cout<<"fail for "<<i<<". index"<<std::endl;
+            break;
+		}
+	}
+	
+		myVecErase.erase(myVecErase.begin(), myVecErase.begin() + 92);
+		orjVecErase.erase(orjVecErase.begin(), orjVecErase.begin() + 92);
+
+		for(size_t i = 0; i < myVecErase.size(); i++)
+		{
+			if (myVecErase[i] == orjVecErase[i])
+				std::cout<<"OK"<<std::endl;
+			else
+			{
+				std::cout<<"fail for "<<i<<". index"<<std::endl;
+				break;
+			}
+		}
+
+	std::cout<< "-----------------end of the erase-----------------------------\n\n" <<std::endl;
+}
+
+void testSwap()
+{
+	std::cout<< "***void swap()***\n" <<std::endl;
+	
+	ft::vector<int> myVecSwap1;
+	ft::vector<int> myVecSwap2;
+	std::vector<int> orjVecSwap1;
+	std::vector<int> orjVecSwap2;
+
+	for (int i = 0; i < 10; i++)
+	{
+		myVecSwap1.push_back(i*2 + 11);
+		orjVecSwap1.push_back(i*2 + 11);
+	}
+
+	for (int i = 0; i < 10; i++)
+	{
+		myVecSwap2.push_back(i*-1);
+		orjVecSwap2.push_back(i*-1);
+	}
+
+	myVecSwap1.swap(myVecSwap2);
+	orjVecSwap1.swap(orjVecSwap2);
+
+	for (size_t i = 0; i < myVecSwap1.size(); i++)
+	{
+		if (myVecSwap1[i] == orjVecSwap1[i] || myVecSwap2[i] == orjVecSwap2[i])
+            std::cout<<"OK"<<std::endl;
+        else
+        {
+            std::cout<<"fail for "<<i<<". index"<<std::endl;
+            break;
+        }
+	}
+
+	std::cout<< "-----------------end of the swap-----------------------------\n\n" <<std::endl;
+}
+
+void testClear()
+{
+	std::cout<< "***void clear()***\n" <<std::endl;
+	
+	ft::vector<int> myVecClear;
+	std::vector<int> orjVecClear;
+
+	for (int i = 0; i < 42; i++)
+	{
+		myVecClear.push_back(i*2 + 11);
+		orjVecClear.push_back(i*2 + 11);
+	}
+
+	myVecClear.clear();
+	orjVecClear.clear();
+
+	if (myVecClear.size() == orjVecClear.size())
+		std::cout<<"OK"<<std::endl;
+	else
+		std::cout<<"fail"<<std::endl;
+
+
+	std::cout<< "-----------------end of the clear-----------------------------\n\n" <<std::endl;
+}
+
+void testGetAllocator()
+{
+	std::cout<< "***void GetAllocator()***\n" <<std::endl;
+	
+	ft::vector<int> myVecGetAllocator;
+	ft::vector<int>::allocator_type myAlloc;
+	std::vector<int> orjVecGetAllocator;
+	std::vector<int>::allocator_type orjAlloc;
+
+	for (int i = 0; i < 42; i++)
+	{
+		myVecGetAllocator.push_back(i*2 + 11);
+		orjVecGetAllocator.push_back(i*2 + 11);
+	}
+
+	myAlloc = myVecGetAllocator.get_allocator();
+	orjAlloc = orjVecGetAllocator.get_allocator();
+
+	int *m = myAlloc.allocate(5);
+	int *o = orjAlloc.allocate(5);
+
+	for (int i = 0; i < 5; i++)
+    {
+        myAlloc.construct(&m[i], i + 1);
+        orjAlloc.construct(&o[i], i + 1);
+    }
+
+	for (int i = 0; i < 5; i++)
+	{
+		if (m[i] == o[i])
+			std::cout<<"OK"<<std::endl;
+		else
+			std::cout<<"fail"<<std::endl;
+	}
+
+
+	std::cout<< "-----------------end of the GetAllocator-----------------------------\n\n" <<std::endl;
 }

@@ -27,7 +27,7 @@ int main()
 #pragma endregion
 
 //iterators
-/* 	testBegin();
+	testBegin();
 	testEnd();
 	testRbegin();
 	testRend();
@@ -39,15 +39,24 @@ int main()
 	testCapacity();
 	testEmpty();
 	testReserve();
+
 //element access
 	testBoxBrackets();
 	testAt();
 	testFront();
 	testBack();
+
+//Modifiers:
 	testAssign();
 	testPushBack();
-	testPopBack();*/
+	testPopBack();
 	testInsert();
+	testErase();
+	testSwap();
+	testClear();
+	testGetAllocator();
+
+	std::cout<<"end of the tests"<<std::endl;
 
 /* 
 	std::cout<< "***insert with 2 parameters***\n" <<std::endl;

@@ -376,17 +376,35 @@ shrink_to_fit	Shrink to fit (public member function)
             	this->_size += n;
             }
 
-			/* template <class InputIterator>
+			template <class InputIterator>
     		void insert (iterator position, InputIterator first, InputIterator last, typename enable_if<!is_integral<InputIterator>::value>::type* = 0)
 			{
+				/* size_type index_to_insert = position - this->begin();
+				size_type n = last - first;
 
-			} */
+				this->_open_space(n, index_to_insert);
+				for (size_type i = 0; i < n; i++)
+					this->_allocator.construct(&this->_data[index_to_insert + i], *(first + i));
+				this->_size += n; */
+				difference_type const	idx = position - this->begin();
+				difference_type const	old_end_idx = this->end() - this->begin();
+				iterator				old_end, end;
+				size_type dist = last - first;
+				this->resize(this->_size + dist);
+
+				end = this->end();
+				position = this->begin() + idx;
+				old_end = this->begin() + old_end_idx;
+				while (old_end != position)
+					*--end = *--old_end;
+				while (first != last)
+					*position++ = *first++;
+			}
 
             //emplace c++11
 
 			iterator erase(iterator pos)
             {
-                //std::cout<<"\nerase func 1 arg"<<std::endl;
   				iterator iter = pos;
 				
 				this->_allocator.destroy(&(*pos));
@@ -396,31 +414,20 @@ shrink_to_fit	Shrink to fit (public member function)
 				return (pos);
             }
 
-            iterator erase(iterator pos_start, iterator pos_end)
+            iterator erase(iterator first, iterator last)
             {
-                //std::cout<<"\nerase func 2 arg"<<std::endl;
-                int count = 0;
-                size_type newCapacity = this->_capacity;
-  				iterator iter = pos_start;
-				while (iter != pos_end)
+                size_type dist = last - first;
+
+  				iterator iter = first;
+ 			 	for (size_type i = 0; i < dist; ++i, ++iter) 
+        			this->_allocator.destroy(&(*iter));
+				if (last != this->end()) // silinecek elemanlar son elemanlar değilse, kaydırmamız gerekiyor
 				{
-					this->_allocator.destroy(&(*iter));
-					iter++;
-					count++;
-				}
-				iter = this->begin();
-				while (iter != (this->end() - 1))
-					this->_allocator.construct(&(*iter), *(++iter));
-
-				this->_capacity = newCapacity;
-                this->_size-= count;
-                return pos_start;
+						std::copy(last, this->end(), first);
+    			}			
+                this->_size -= dist;
+                return first;
             }
-
-
-
-
-
 
 			void swap(vector& other)
 			{
@@ -446,14 +453,15 @@ shrink_to_fit	Shrink to fit (public member function)
                 this->_size = 0;
             }
 
+			//emplace
 			//emplace_back
 
 		//------------Modifiers Functions end------------------------//
 
 
 	/*
-	member functions - allocator:
-	get_allocator	Get allocator (public member function)
+	allocator:
+		get_allocator
 	*/	
 
 		//------------Allocator Functions------------------------//
@@ -560,7 +568,11 @@ shrink_to_fit	Shrink to fit (public member function)
 			    this->_smart_reAlloc(this->_size + n);
 
 			    for (size_type i = this->_size + n - 1; i >= index_to_insert; i--)
+				{
 			        this->_allocator.construct(&this->_data[i], this->_data[i - n]);
+					if (i == 0)
+						break;
+				}
 
 			    this->_size += n;
 			}
@@ -731,3 +743,7 @@ void testAssign();
 void testPushBack();
 void testPopBack();
 void testInsert();
+void testErase();
+void testSwap();
+void testClear();
+void testGetAllocator();
