@@ -5,7 +5,6 @@
 #include <memory> // typename A = std::allocator<T>
 #include <iostream>
 #include <string>
-#include "vectorIterator.hpp"
 #include "../iterators/RandomAccess_Iterator.hpp"
 #include "../iterators/Reverse_Iterator.hpp"
 #include "../utils/type_traits.hpp"
