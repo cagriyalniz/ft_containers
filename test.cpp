@@ -569,7 +569,7 @@ void testAssign()
 		if (orjVecAssign[i] == myVecAssign[i])
 			std::cout<<"OK"<<std::endl;
 		else
-			std::cout<<"FAIL for assign"<<std::endl;
+			std::cout<<"FAIL for assign : "<< i <<std::endl;
 
 	}
 
@@ -580,8 +580,9 @@ void testAssign()
 		if (orjVecAssign[i] == myVecAssign[i])
 			std::cout<<"OK"<<std::endl;
 		else
-			std::cout<<"FAIL for assign"<<std::endl;
+			std::cout<<"FAIL for assign: "<< i<<"myVec: " << myVecAssign[i]<<"orjVec: "<<orjVecAssign[i] <<std::endl;
 	}
+
 
 	for(int i = 0; i < 30; i++)
 	{
@@ -590,7 +591,7 @@ void testAssign()
 		if (orjVecAssign[i] == myVecAssign[i])
 			std::cout<<"OK"<<std::endl;
 		else
-			std::cout<<"FAIL for assign"<<std::endl;
+			std::cout<<"FAIL for assign: "<< i  <<std::endl;
 	}
 
 
@@ -607,7 +608,7 @@ void testAssign()
 		if (orjVecAssign[i] == myVecAssign[i])
 			std::cout<<"OK"<<std::endl;
 		else
-			std::cout<<"FAIL for assign"<<std::endl;
+			std::cout<<"FAIL for assign: "<< i <<std::endl;
 	}
 
 

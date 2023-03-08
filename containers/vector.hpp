@@ -308,12 +308,12 @@ shrink_to_fit	Shrink to fit (public member function)
 				{
 					this->_allocator.deallocate(this->_data, this->_capacity);
 					this->_data = this->_allocator.allocate(n);
+					this->_capacity = n;
 				}
 
-				this->_capacity = n;
-				this->_size = n;
-				for (size_type i = 0; i < this->_size; i++)
+				for (size_type i = 0; i < n; i++)
 					this->_allocator.construct(&this->_data[i],val);
+				this->_size = n;
 			}
 
 			
@@ -378,13 +378,6 @@ shrink_to_fit	Shrink to fit (public member function)
 			template <class InputIterator>
     		void insert (iterator position, InputIterator first, InputIterator last, typename enable_if<!is_integral<InputIterator>::value>::type* = 0)
 			{
-				/* size_type index_to_insert = position - this->begin();
-				size_type n = last - first;
-
-				this->_open_space(n, index_to_insert);
-				for (size_type i = 0; i < n; i++)
-					this->_allocator.construct(&this->_data[index_to_insert + i], *(first + i));
-				this->_size += n; */
 				difference_type const	idx = position - this->begin();
 				difference_type const	old_end_idx = this->end() - this->begin();
 				iterator				old_end, end;
