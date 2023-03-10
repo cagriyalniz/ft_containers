@@ -8,9 +8,9 @@
 
 int main()
 {
-	std::cout<<"Vector test is starting..."<<std::endl;
+/*	std::cout<<"Vector test is starting..."<<std::endl;
 //iterators
-/*	testBegin();
+	testBegin();
 	testEnd();
 	testRbegin();
 	testRend();
@@ -43,10 +43,16 @@ int main()
 
 	std::cout<<"Map test is starting..."<<std::endl;
 
-	/* mapInsertTest(); */
-	mapBegin();
+	/* mapInsertTest(); 
+	mapBegin(); 
+	mapEnd();
+	 
+	mapREnd();*/
+mapRBegin();
 
 	std::cout<<"Map test finished"<<std::endl;
+
+
 
 
  

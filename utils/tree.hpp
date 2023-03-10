@@ -200,10 +200,11 @@ namespace ft
                 node->right = nullptr;
                 return (newnode); */
 				Node_ptr y =  node->right;
-				Node_ptr T2 = node->left;
+				Node_ptr T2 = y->left;
 				Node_ptr p = node->parent;
 
 				y->left = node;
+				node->right = T2;
 				if (p != this->_end)
 				{
 					if (p->left == node)

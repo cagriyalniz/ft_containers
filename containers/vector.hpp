@@ -1,6 +1,8 @@
+#ifndef VECTOR_HPP
+#define VECTOR_HPP
 //dizayn: https://cplusplus.com/reference/vector/vector/?kw=vector
 
-#pragma once
+
 #include <stddef.h>
 #include <memory> // typename A = std::allocator<T>
 #include <iostream>
@@ -739,3 +741,5 @@ void testErase();
 void testSwap();
 void testClear();
 void testGetAllocator();
+
+#endif
