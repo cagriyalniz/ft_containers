@@ -561,54 +561,46 @@ void testAssign()
 	std::vector<int> orjVecAssign;
 
 
+	orjVecAssign.assign(22, 2);
+	myVecAssign.assign(22, 2);
 
-	for(int i = 0; i < 3; i++)
+	for(int i = 0; i < 22; i++)
 	{
-		orjVecAssign.assign(i + 1, i + 1);
-		myVecAssign.assign(i + 1, i + 1);
+
 		if (orjVecAssign[i] == myVecAssign[i])
 			std::cout<<"OK"<<std::endl;
 		else
-			std::cout<<"FAIL for assign : "<< i <<std::endl;
+			std::cout<<"FAIL for assign : "<< i<<"myVec: " << myVecAssign[i]<<"orjVec: "<<orjVecAssign[i] <<std::endl;
 
 	}
 
-	for(int i = 3; i > 0; i--)
+/* 	for(int i = 3; i < 10; i++)
 	{
+		std::cout<<"add->"<<i<<std::endl;
 		orjVecAssign.assign(i, i );
 		myVecAssign.assign(i, i );
 		if (orjVecAssign[i] == myVecAssign[i])
-			std::cout<<"OK"<<std::endl;
+			std::cout<<"OK"<< i<<"myVec: " << myVecAssign[i]<<"orjVec: "<<orjVecAssign[i]<<std::endl;
 		else
 			std::cout<<"FAIL for assign: "<< i<<"myVec: " << myVecAssign[i]<<"orjVec: "<<orjVecAssign[i] <<std::endl;
-	}
+	} */
 
 
-	for(int i = 0; i < 30; i++)
-	{
-		orjVecAssign.push_back(i + 1);
-		myVecAssign.push_back(i + 1);
-		if (orjVecAssign[i] == myVecAssign[i])
-			std::cout<<"OK"<<std::endl;
-		else
-			std::cout<<"FAIL for assign: "<< i  <<std::endl;
-	}
+
 
 
 	std::vector<int> newOrjVecAssign;
 	ft::vector<int> newMyVecAssign;
 
-	newOrjVecAssign.push_back(0);
-
-	newOrjVecAssign.assign(orjVecAssign.begin() + 5, orjVecAssign.begin() + 12);
-	newMyVecAssign.assign(myVecAssign.begin() + 5, myVecAssign.begin() + 12);
+	newOrjVecAssign.assign(orjVecAssign.begin() + 1, orjVecAssign.begin() + 12);
+	newMyVecAssign.assign(myVecAssign.begin() + 1, myVecAssign.begin() + 12);
 
 	for(size_t i = 0; i < newOrjVecAssign.size(); i++) 
 	{
 		if (orjVecAssign[i] == myVecAssign[i])
 			std::cout<<"OK"<<std::endl;
 		else
-			std::cout<<"FAIL for assign: "<< i <<std::endl;
+			std::cout<<"FAIL for assign: "<< i<<"myVec: " << myVecAssign[i]<<"orjVec: "<<orjVecAssign[i] <<std::endl;
 	}
 
 

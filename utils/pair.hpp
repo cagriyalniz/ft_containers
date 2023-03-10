@@ -17,12 +17,13 @@ namespace ft
         pair(const pair<U, V> &pr) : first(pr.first), second(pr.second) {};
         pair(const first_type &a, const second_type &b) : first(a), second(b) {};
         //pair(const pair &pr) : first(pr.first), second(pr.second) {};
+        template <class U, class V>
         pair<U, V>&operator=(const pair<U, V> &pr)
         {
             if (this != &pr)
             {
-                first = pr.first;
-                second = pr.second;
+                this->first = pr.first;
+                this->second = pr.second;
             }
             return (*this);
         };
@@ -71,14 +72,14 @@ namespace ft
         return (ft::pair<T1, T2>(x, y));
     }
 
-    template <class T, bool v>
+/*     template <class T, bool v>
     struct integral_constant
     {
         static const bool value = v;
         typedef T value_type;
         typedef integral_constant type;
         operator value_type() const { return value; }
-    };
+    }; */
 }
 
 #endif

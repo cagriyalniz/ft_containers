@@ -2,7 +2,9 @@
 #define MAP_HPP
 
 #include "../utils/pair.hpp"
-#include "../iterators/AVLTree.hpp"
+#include "../utils/tree.hpp"
+#include "../utils/type_traits.hpp"
+#include "../iterators/TreeIter.hpp"
 #include "../iterators/Reverse_Iterator.hpp"
 #include <iostream>//std::less
 #include <memory>//std::allocator
@@ -84,7 +86,7 @@ namespace ft
                     typedef bool result_type;
                     typedef value_type first_arg_type;
                     typedef value_type second_arg_type;
-                    bool operator()(const value_type & x, const value_type & y) const
+                    bool operator()(const value_type &x, const value_type &y) const
                     {
                         return (_comp(x.first, y.first));//firstleri cagirarak kiyaslar
                     };
@@ -94,12 +96,12 @@ namespace ft
             typedef Node<value_type>                                    Node_type;//value_type = pair
             typedef Node_type                                           *Node_ptr;
 
-            typedef AVLTree<value_type, key_compare, allocator_type>     Tree_type;
-            typedef Node_type                                           *Tree_ptr;
+            typedef Tree<value_type, key_compare, allocator_type>     Tree_type;
+            typedef Tree_type                                         *Tree_ptr;
         
         public://iterator tree's iterator baglanacak
-            typedef typename AVLTree::iterator                           iterator;
-            typedef typename AVLTree::const_iterator                     const_iterator;
+            typedef typename Tree_type::iterator                           iterator;
+            typedef typename Tree_type::const_iterator                     const_iterator;
             typedef typename ft::ReverseIterator<iterator>            	reverse_iterator;
 			typedef typename ft::ReverseIterator<const_iterator> 		const_reverse_iterator;
 			
@@ -115,7 +117,7 @@ namespace ft
 				_tree(comp, alloc), _alloc(alloc), _comp(comp){};
 			//(first, last) insert eder from to last
 			template <class InputIterator>
-			map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type());
+			map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()):
 				_tree(comp, alloc), _alloc(alloc), _comp(comp) {insert (first, last); };
 			map (const map& x) {*this = x; };//copy constructor
 			~map() {this->_tree.clear(); };//_tree yi temizler
@@ -320,7 +322,7 @@ namespace ft
 			{
 				return (allocator_type());
 			}
-
+	};
 			template <class Key, class T, class Compare, class Alloc>
 			void swap(map<Key, T, Compare, Alloc>&x, map<Key, T, Compare, Alloc>&y)
 			{
@@ -336,7 +338,7 @@ namespace ft
 			template <class Key, class T, class Compare, class Alloc>
 			bool operator!= (const map<Key, T, Compare, Alloc>& lhs, const map<Key, T, Compare, Alloc>&rhs)
 			{
-				return (!(lsh == rhs));
+				return (!(lhs == rhs));
 			}
 
 			template <class Key, class T, class Compare, class Alloc>
@@ -362,11 +364,9 @@ namespace ft
 			{
 				return (!(lhs < rhs));
 			}
-
-    };
-
 }
 
 void mapInsertTest();
+void mapBegin();
 
 #endif

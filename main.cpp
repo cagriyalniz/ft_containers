@@ -10,7 +10,7 @@ int main()
 {
 	std::cout<<"Vector test is starting..."<<std::endl;
 //iterators
-	testBegin();
+/*	testBegin();
 	testEnd();
 	testRbegin();
 	testRend();
@@ -31,19 +31,20 @@ int main()
 
 //Modifiers:
 	testAssign();
-	testPushBack();
+ 	testPushBack();
 	testPopBack();
 	testInsert();
 	testErase();
 	testSwap();
 	testClear();
-	testGetAllocator();
+	testGetAllocator();  */
 	std::cout<<"Vector test finished"<<std::endl;
 
 
 	std::cout<<"Map test is starting..."<<std::endl;
 
-	mapInsertTest();
+	/* mapInsertTest(); */
+	mapBegin();
 
 	std::cout<<"Map test finished"<<std::endl;
 

@@ -21,10 +21,11 @@ namespace ft
 			int																		height;
 		
 		public:
-		    Node(); key() {}
+		    Node(): key() {}
 			Node(T key) : key(key) {}
     };
 
+	//Compare degeri map'ten Compare = std::less<Key> şeklinde gelecek
 	template < class T, class Compare, class Allocator >
 	class Tree
 	{
@@ -34,7 +35,7 @@ namespace ft
 			typedef Allocator       												allocator_type;
 		
 		private:
-			typedef typename allocator_type::template rebind<Node<T> >:: other		allocator_node; //??
+			typedef typename allocator_type::template rebind<Node<T> >:: other		allocator_node; //rebind özelliği, ilgili türün veya türlerin bellek yöneticisini yeniden bağlamak için kullanılır.
 			typedef typename allocator_node::reference								node_reference;
 			typedef typename allocator_node::const_reference						node_const_reference;
 			typedef typename allocator_node::difference_type						node_difference_type;
@@ -45,7 +46,7 @@ namespace ft
 			typedef Node_type*														Node_ptr;
 		
 		public:
-			typedef typename allocato_type::reference								reference;
+			typedef typename allocator_type::reference								reference;
 			typedef typename allocator_type::const_reference						const_reference;
 			typedef typename allocator_type::difference_type						difference_type;
 			typedef typename allocator_type::pointer								pointer;
@@ -150,7 +151,7 @@ namespace ft
 				}
 			}
 
-		    Node_ptr makeNode(value_type key)
+		    Node_ptr _makeNode(value_type key)
 			{
 				Node_ptr newnode = this->_alloc.allocate(1);
 				this->_alloc.construct(newnode, key);
@@ -288,18 +289,290 @@ namespace ft
 				return (node);
 			}
 
+			/*
+				Fonksiyon, ikili arama ağacında düğüm eklemek için özyinelemeli bir yaklaşım kullanır. İlk olarak, eklenecek düğümün hangi pozisyona ekleneceği belirlenir. Eğer mevcut düğümün anahtar değeri, eklenecek düğümün anahtar değerinden büyükse, yeni düğüm sol alt ağaca eklenir. Aksi takdirde, sağ alt ağaca eklenir. Eğer mevcut düğüm nullptr ya da ağacın son düğümü ise, yeni düğüm direkt olarak eklenir.
+
+				Daha sonra, _ReSetHeight fonksiyonu ile ağaçtaki tüm düğümlerin yüksekliği güncellenir. Ardından, _reBalance fonksiyonu çağrılarak, ağacın dengelenmesi sağlanır. Dengelenme işlemi, ağaçtaki düğümlerin yükseklikleri arasındaki farkı minimize etmek için yapılan bir işlemdir.
+
+				Son olarak, eklenen düğümün, önceki düğümle bağlantısı (parent-child ilişkisi) ayarlanır ve güncellenen ağaç geri döndürülür.
+			*/
 			Node_ptr _insert(Node_ptr temp, Node_ptr newNode)
 			{
+				if (temp == nullptr || temp == this->_end)
+					return (newNode);
+				if (!this->_comp(temp->key.first, newNode->key.first))
+				{
+					temp->left = _insert(temp->left, newNode);
+					if (temp->left == newNode)
+						newNode->parent = temp;
+				}
+				else if (this->_comp(temp->key.first, newNode->key.first))
+				{
+					temp->right = _insert(temp->right, newNode);
+					if (temp->right == newNode)
+						newNode->parent = temp;
+				}
+				else
+					return (temp);
+				_ReSetHeight(temp);
+				temp = _reBalance(temp);
+				return (temp);
 			}
 
+			Node_ptr _remove(Node_ptr root, T key)
+			{
+				if (root == nullptr)
+					return (nullptr);
+				else if (this->_comp(key.first, root->key.first))
+					root->left = _remove(root->left, key);
+				else if (this->_comp(root->key.first, key.first))
+					root->right = _remove(root->right, key);
+				else
+				{
+					if (root->left == nullptr && root->right == nullptr)
+					{
+						this->_alloc.destroy(root);
+						this->_alloc.deallocate(root, 1);
+						root = nullptr;
+						return (root);
+					}
+					else if (root->left == nullptr)
+					{
+						Node_ptr temp = root;
+						root = root->right;
+						root->parent = temp->parent;
+						this->_alloc.destroy(temp);
+						this->_alloc.deallocate(temp, 1);
+						temp = nullptr;
+						return (root);
+					}
+					else if (root->right == nullptr)
+					{
+						Node_ptr temp = root;
+                        root = root->left;
+                        root->parent = temp->parent;
+                        this->_alloc.destroy(temp);
+                        this->_alloc.deallocate(temp, 1);
+                        temp = nullptr;
+                        return (root);
+					}
+					else // Bu durumda, silinecek düğümün hem sol hem de sağ alt ağacı var. Dolayısıyla, bu durumda yerine konulacak düğüm, silinecek düğümün sağ alt ağacındaki en küçük düğümdür. 
+					{
+						Node_ptr temp = _TreeMin(root->right);//_TreeMin fonksiyonu, verilen düğümün alt ağacında yer alan en küçük düğümü bulur. Bu düğümün anahtar değeri, silinecek düğümün anahtar değerinden büyük olduğundan, bu düğüm, silinecek düğümün sağ alt ağacındaki en küçük düğümdür.
+						value_type p = temp->key;
+						root->right = _remove(root->right, temp->key);//silinecek düğümün sağ alt ağacındaki en küçük düğümün silinmesini sağlar.
+						this->_alloc.construct(root, p);
+					}
+				}
+				_ReSetHeight(root);
+				root = _reBalance(root);
+				return (root);
+			}
+
+
+			/**
+			 * @brief 
+			 * Bu fonksiyon, belirtilen anahtar değeri(key), mevcut bir düğüm ağacında arar ve eşleşen düğümü döndürür.
+			 * Not: Fonksiyon, anahtar değerlerini karşılaştırmak için _comp işlevini kullanır ve arama işlemi, öncelikle sol alt ağaca yönelir.
+			 * @param temp : Arama işlemine başlamak için geçici bir düğüm işaretçisi.
+			 * @param key : Aranacak anahtar değeri.
+			 * @return Node_ptr : Anahtar değeri ile eşleşen düğümü döndürür. Eğer düğüm bulunamazsa, ağacın sonunu temsil eden işaretçiyi (_end) döndürür.
+			 */
+			Node_ptr _search(Node_ptr temp, key_type key) const
+			{
+				if (temp == nullptr)
+					return (this->_end);
+				if (temp->key.first == key)
+					return temp;
+				else if (this->_comp(key, temp->key.first))
+					return _search(temp->left, key);
+				return (this->_end);
+			}
+
+			void _ReSetHeight(Node_ptr temp)
+			{
+				if (!temp->left && !temp->right)
+					temp->height = 1;
+				else if (temp->left == nullptr)
+					temp->height = 1 + temp->right->height;
+				else if (temp->right == nullptr || temp->right == this->_end)
+					temp->height = 1 + temp->left->height;
+				else
+					temp->height = 1 +  std::max(temp->right->height, temp->left->height);
+			}
+
+		public:
+			Node_ptr insert(value_type key)
+			{
+				Node_ptr newnode = _makeNode(key);
+				if (this->_root == this->_end)
+				{
+					this->_root = newnode;
+					this->_root->parent = this->_end; //  _root düğümü için parent değerinin bulunmadığı anlamına geliyor.
+					this->_end->left = this->_root;
+					++this->_size;
+				}
+				else
+				{
+					++this->_size;
+					this->_root = _insert(this->_root, newnode);
+				}
+				return (newnode);
+			}
+
+			Node_ptr insertInPossition(Node_ptr position, T key)
+			{
+				Node_ptr newnode = _makeNode(key);
+				if (this->_root == this->_end)
+				{
+					position = newnode;
+					position->parent = this->_end;
+					this->_end->left = position;
+					++this->_size;
+				}
+				else
+				{
+					++this->_size;
+					position = _insert(position, newnode);
+				}
+				return (newnode);
+			}
+
+			void remove (T key)
+			{
+				this->_root = _remove(this->_root, key);
+			}
+
+			void clear()
+			{
+				if (this->_root != this->_end)
+				{
+					_destroy(this->_root);
+					this->_size = 0;
+					this->_root = this->_end;
+					this->_end->left = this->_root;
+				}
+			}
+
+			void swap(Tree &x)
+			{
+				size_type tmp_size = x._size;
+				allocator_type tmp_alloc = x._alloc;
+				Node_ptr tmp_root = x._root;
+				Node_ptr tmp_end = x._end;
+
+				x._size = this->_size;
+				x._alloc = this->_alloc;
+				x._root = this->_root;
+				x._end = this->_end;
+
+				this->_size = tmp_size;
+				this->_alloc = tmp_alloc;
+				this->_root = tmp_root;
+				this->_end = tmp_end;
+			}
+			/**
+			 * @brief 
+			 *  Returns an iterator pointing to the first element that is not less than (i.e. greater or equal to) key. tr: belirtilen değerin küçük eşit olduğu en küçük anahtar değerini içeren düğümü döndürür.
+			 * @param val 
+			 * @return Node_ptr 
+			 */
+
+			Node_ptr lower_bound(key_type val) const
+			{
+				Node_ptr node = Min();
+
+				while (!this->_comp(val, node->key.first)) // Fonksiyon, ağacın en küçük düğümü ile başlar ve istenen değerin anahtarına eşit veya daha büyük olan bir düğüm bulunana kadar bir sonraki düğüme geçerek devam eder.
+				{
+					if (val == node->key.first)
+						break;
+					node = successor(node);
+					if (node == nullptr || node == this->_end)
+					    return this->_end;//Eğer sonraki düğüm bulunamazsa veya son düğüm ağacın sonunu gösteriyorsa, fonksiyon bu son düğümünü döndürür.
+				}
+				return (node);
+			}
+			
+			/**
+			 * @brief 
+			 * Returns an iterator pointing to the first element that is greater than key. tr: Anahtardan daha büyük olan ilk öğeye işaret eden bir yineleyici döndürür.
+			 * @param val 
+			 * @return Node_ptr 
+			 */
+			
+			Node_ptr upper_bound(key_type val) const
+			{
+				Node_ptr node = Min();
+
+				while(!this->_comp(val, node->key.first))
+				{
+					node = successor(node);
+					if (node == nullptr || node == this->_end)
+						return (this->_end);
+				}
+				return (node);
+			}
+
+			/**
+			 * @brief 
+			 * left->left->left->left->......->to min
+			 * @return Node_ptr 
+			 */
+			Node_ptr Min() const
+			{
+				Node_type *tmp = this->_root;
+
+				while (tmp != this->_end && tmp->left)
+					tmp = tmp->left;
+				return (tmp);
+			}
+
+			/**
+			 * @brief 
+			 * right->right->right->right->......->to max
+			 * @return Node_ptr 
+			 */
+			Node_ptr Max() const
+			{
+				Node_type *tmp = this->_root;
+
+				while (tmp != this->_end && tmp->right)
+					tmp = tmp->right;
+				return (tmp);
+			}
+
+			Node_ptr search(key_type key) const
+			{
+				if (this->_root == this->_end)
+					return (this->_end);
+				else
+					return (_search(this->_root, key));
+			}
+
+			value_type get_Key() const 
+			{
+				return (this->_root->key);
+			}
+
+			int getSize() const 
+			{
+				return (this->_size);
+			}
+
+			value_type get_height() const
+			{
+				return (this->_root->height);
+			}
 	};
 
 
-
-
-
-
-
+	/**
+	 * @brief 
+	 * agacin minimum degerini gosterir
+	 * @tparam Node_ptr 
+	 * @param temp 
+	 * @return Node_ptr 
+	 */
 	template<class Node_ptr>
 	Node_ptr _TreeMin(Node_ptr temp)
 	{
@@ -308,6 +581,14 @@ namespace ft
 		return (temp);
 	};
 
+	
+	/**
+	 * @brief 
+	 * agacin maximum degerini gosterir
+	 * @tparam Node_ptr 
+	 * @param temp 
+	 * @return Node_ptr 
+	 */
 	template<class Node_ptr>
 	Node_ptr _TreeMax(Node_ptr temp)
 	{
@@ -315,11 +596,18 @@ namespace ft
 			temp = temp->right;
 		return (temp);
 	};
-	//Bir düğümün sıralı ardılı, sağ alt ağacında en az değere 
-	//sahip olan düğümdür, yani sağ alt ağacının en soldaki çocuğu.
-	/*  Hangi ataların ardıl olduğunu bulmak için, 
-	ebeveyninin sol çocuğu olan bir node'la karşılaşana kadar ağaçta köke
-	doğru ilerleyebiliriz. Böyle bir node bulunursa, sıra dışı ardıl onun üst öğesidir; */
+	
+	/**
+	 * @brief 
+	 * Bir düğümün sıralı ardılı, sağ alt ağacında en az değere 
+	 * sahip olan düğümdür, yani sağ alt ağacının en soldaki çocuğu.
+	 * Hangi ataların ardıl olduğunu bulmak için, 
+	 * ebeveyninin sol çocuğu olan bir node'la karşılaşana kadar ağaçta köke
+	 * doğru ilerleyebiliriz. Böyle bir node bulunursa, sıra dışı ardıl onun üst öğesidir;
+	 * @tparam Node_ptr 
+	 * @param node 
+	 * @return Node_ptr 
+	 */
 	template<class Node_ptr>
 	Node_ptr successor(Node_ptr node)
 	{
@@ -352,6 +640,5 @@ namespace ft
 		return (temp);
 	};
 }
-
 
 #endif

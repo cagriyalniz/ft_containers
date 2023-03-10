@@ -3,6 +3,8 @@
 
 #include <memory>
 #include "../utils/tree.hpp"
+#include "./Iterator_Traits.hpp"
+
 
 namespace ft
 {
@@ -12,10 +14,10 @@ namespace ft
         public:
             typedef T                                                   iterator_type;
             typedef std::bidirectional_iterator_tag                     iterator_category;
-            typedef typename iterator_traits<T>::value_type             value_type;
-            typedef typename iterator_traits<T>::difference_type        difference_type;
-            typedef typename iterator_traits<T>::pointer                pointer;
-            typedef typename iterator_traits<T>::reference              reference;
+            typedef typename ft::iterator_traits<T>::value_type             value_type;
+            typedef typename ft::iterator_traits<T>::difference_type        difference_type;
+            typedef typename ft::iterator_traits<T>::pointer                pointer;
+            typedef typename ft::iterator_traits<T>::reference              reference;
 
         private:
             Node_ptr _it;
