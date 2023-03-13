@@ -6,7 +6,7 @@
 
 namespace ft
 {
-    template<class Key, class T, class Compate, typename Node, bool B>
+    template<class Key, class T, class Compare, typename Node, bool B>
     class rev_map_iterator
     {
         public:
@@ -32,14 +32,14 @@ namespace ft
 			rev_map_iterator(nodePtr node = 0, nodePtr lastElem = 0, const key_compare& comp = key_compare()):_node(node), _lastElem(lastElem), _comp(comp){}
 
 			//copy constructor
-			rev_map_iterator(const rev_map_iterator<Key, T, Compare, Npde, false>& other)
+			rev_map_iterator(const rev_map_iterator<Key, T, Compare, Node, false>& other)
 			{
 				_node = other.getNode();
 				_lastElem = other.getLastElem();
 				_comp = other.getCompare();
 			}
 
-			explict rev_map_iterator(map_iterator<Key, T, Compare, Node, false> other)//explict rev_map_iterator(rev_map_iterator<Key, T, Compare, Node, false> other)
+			explicit rev_map_iterator(map_iterator<Key, T, Compare, Node, false> other)//explict rev_map_iterator(rev_map_iterator<Key, T, Compare, Node, false> other)
 			{
 				--other;
 				_node = other.getNode();
@@ -97,7 +97,7 @@ namespace ft
 
 				while (_node != _lastElem && !_comp(_node->content.first, prevNode->content.first))
 				{
-					if (_node->left && (_node->left == _lastElem || _comp(_npde->left->content.first, prevNode->content.first)))
+					if (_node->left && (_node->left == _lastElem || _comp(_node->left->content.first, prevNode->content.first)))
 					{
 						_node = _node->left;
 
@@ -149,7 +149,7 @@ namespace ft
 
         	    while (_node!= _lastElem &&!_comp(prevNode->content.first, _node->content.first))
         	    {
-        	        if (_node->right && (_node->right == _lastElem || _comp( prevNode->content.first, _npde->right->content.first)))
+        	        if (_node->right && (_node->right == _lastElem || _comp( prevNode->content.first, _node->right->content.first)))
         	        {
         	            _node = _node->right;
 

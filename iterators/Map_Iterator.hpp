@@ -3,6 +3,7 @@
 
 #include <memory>
 #include "./Iterator_Traits.hpp"
+#include "../utils/type_traits.hpp"
 //#include "type1_or_type2.hpp"
 
 
@@ -28,6 +29,7 @@ namespace ft
 			nodePtr 	_lastElem;
 			key_compare _comp;
 
+		public:
 			//def const
 			map_iterator(nodePtr node = 0, nodePtr lastElem = 0, const key_compare& comp = key_compare()):
 			    _node(node), _lastElem(lastElem), _comp(comp){}
@@ -180,12 +182,12 @@ namespace ft
 
 			bool operator==(const map_iterator& it) const 
 			{
-				return (it._node == node);
+				return (it._node == _node);
 			}
 
 			bool operator!=(const map_iterator& it) const
 			{
-				return (it._node!= node);
+				return (it._node!= _node);
 			}
 
 		private:

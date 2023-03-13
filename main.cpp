@@ -42,13 +42,19 @@ int main()
 
 
 	std::cout<<"Map test is starting..."<<std::endl;
+	mapBegin();
+	mapEnd();
+	mapRBegin();
+	mapREnd();
+	mapEmpty();
+	mapSize();
 
 	/* mapInsertTest(); 
-	mapBegin(); 
-	mapEnd();
 	 
-	mapREnd();*/
-mapRBegin();
+	
+	 
+	
+	;*/
 
 	std::cout<<"Map test finished"<<std::endl;
 

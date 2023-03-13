@@ -64,8 +64,10 @@ namespace ft
 	*/	
 
         public:
+			//default
             explicit vector(const allocator_type& alloc = allocator_type()): _size(0), _capacity(0), _allocator(alloc), _data(NULL){}
-            
+
+			//fill
 			explicit vector(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()): _size(n), _capacity(n), _allocator(alloc), _data(NULL)
 			{
 			    _data = _allocator.allocate(_capacity);
@@ -73,6 +75,7 @@ namespace ft
 			        this->_allocator.construct(&this->_data[i], val);
 			}
 
+			//range
 			template <class InputIterator>
 			explicit vector(InputIterator first, InputIterator sec, const allocator_type &alloc = allocator_type(), typename ft::enable_if<!is_integral<InputIterator>::value, bool>::type = true): _size(0), _capacity(0), _data(NULL), _allocator(alloc)
 			{
@@ -80,6 +83,7 @@ namespace ft
 			};
 
 			public:
+			//copy
             vector(const vector& other):_size(other._size), _capacity(other._capacity), _allocator(other._allocator), _data(other._data){}
 			
 			vector &operator=(const vector &vector)
