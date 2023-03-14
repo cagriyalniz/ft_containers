@@ -46,7 +46,7 @@ namespace ft
 
 			map_iterator& operator=(const map_iterator& other)
 			{
-				if (this != other)
+				if (this != &other)
 				{
                     _node = other._node;
                     _lastElem = other._lastElem;

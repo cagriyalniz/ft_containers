@@ -243,7 +243,7 @@ namespace ft
 
 		iterator insert (iterator position, const value_type& val)
 		{
-			if (_comp(val->first, position->first))
+			if (_comp(val.first, position->first))//val->first
 			{
 				/* Node* elemIsPresent = searchNode(_root, val->first);
                 if (elemIsPresent)
@@ -908,13 +908,27 @@ namespace ft
     
 }
 
+//Iterators
+
 void mapBegin();
 void mapEnd();
 void mapRBegin();
 void mapREnd();
+
+//Capacity
 void mapEmpty();
 void mapSize();
-void maxSize()
+void mapMaxSize();
 
-void mapInsertTest();
+//Element access:
+void mapBoxBrackets();
+
+//Modifiers:
+void mapInsert();
+void mapErase();
+void mapSwap();
+void mapClear();
+
+void mapKeyComp();
+void mapValueComp();
 #endif
