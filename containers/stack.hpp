@@ -68,10 +68,17 @@ template< class T, class Container = ft::vector<T> >
 				this->c.pop_back();
 			}
 
+			void swap(stack &other)
+			{
+				container_type tmp(this->c);
+				this->c = other.c;
+				other.c = tmp;
+			}
+
 	};
 
 
-    /* template<class T, class Container >
+    template<class T, class Container >
 	bool operator == (const ft::stack<T,Container>& lhs, const ft::stack<T,Container>& rhs)
 	{
 		return (lhs.c == rhs.c);
@@ -102,5 +109,5 @@ template< class T, class Container = ft::vector<T> >
 	template<class T, class Container > bool operator >= (const ft::stack<T,Container>& lhs, const ft::stack<T,Container>& rhs)
 	{
 		return ((lhs > rhs) || (lhs == rhs));
-	} */
+	}
 }

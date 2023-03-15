@@ -52,11 +52,11 @@ void mapBegin()
 
         if (oit->first != mit->first || oit->second != mit->second)
         {
-            std::cout << "map<char, int> FALSE"<<std::endl;
+            std::cout << "FALSE"<<std::endl;
             std::cout<<"my map: "<< mit->first <<mit->second<<"orj map: "<<oit->first<<oit->second<<std::endl;
         }
         else
-            std::cout << "map<char, int> \033[1;32m OK \033[0m"<<std::endl;
+            std::cout << "\033[1;32m OK \033[0m"<<std::endl;
 
     }
 
@@ -78,11 +78,11 @@ void mapBegin()
 
         if (oit->first != mit->first || oit->second != mit->second)
         {
-            std::cout << "map<int, int> FALSE"<<std::endl;
+            std::cout << "FALSE"<<std::endl;
             std::cout<<"my map: "<< mit->first <<mit->second<<"orj map: "<<oit->first<<oit->second<<std::endl;
         }
         else
-            std::cout<<"map<int, int> OK"<<std::endl;
+            std::cout<<"\033[1;32m OK \033[0m"<<std::endl;
     }
 
         
@@ -117,11 +117,11 @@ void mapEnd()
 
         if (oit->first != mit->first || oit->second != mit->second)
         {
-            std::cout << "map<char, int> FALSE"<<std::endl;
+            std::cout << "FALSE"<<std::endl;
             std::cout<<"my map: "<< mit->first <<mit->second<<"orj map: "<<oit->first<<oit->second<<std::endl;
         }
         else
-            std::cout << "map<char, int> \033[1;32m OK \033[0m"<<std::endl;
+            std::cout << "\033[1;32m OK \033[0m"<<std::endl;
 
     }
 
@@ -146,11 +146,11 @@ void mapEnd()
 
         if (oit->first != mit->first || oit->second != mit->second)
         {
-            std::cout << "map<int, int> FALSE"<<std::endl;
+            std::cout << "FALSE"<<std::endl;
             std::cout<<"my map: "<< mit->first <<mit->second<<"orj map: "<<oit->first<<oit->second<<std::endl;
         }
         else
-            std::cout<<"map<int, int> OK"<<std::endl;
+            std::cout<<"\033[1;32m OK \033[0m"<<std::endl;
     }
     std::cout << "end test end" << std::endl;
 }
@@ -181,11 +181,11 @@ void mapRBegin()
         
         if (oit->first != mit->first || oit->second != mit->second)
         {
-            std::cout << "map<char, int> FALSE"<<std::endl;
+            std::cout << "FALSE"<<std::endl;
             std::cout<<"my map: "<< mit->first <<mit->second<<"orj map: "<<oit->first<<oit->second<<std::endl;
         }
         else
-            std::cout << "map<char, int> \033[1;32m OK \033[0m"<<std::endl;
+            std::cout << "\033[1;32m OK \033[0m"<<std::endl;
 
     }
     {
@@ -208,11 +208,11 @@ void mapRBegin()
 
         if (oit->first != mit->first || oit->second != mit->second)
         {
-            std::cout << "map<int, int> FALSE"<<std::endl;
+            std::cout << "FALSE"<<std::endl;
             std::cout<<"my map: "<< mit->first <<mit->second<<"orj map: "<<oit->first<<oit->second<<std::endl;
         }
         else
-            std::cout<<"map<int, int> OK"<<std::endl;
+            std::cout<<"\033[1;32m OK \033[0m"<<std::endl;
     }
 
     std::cout << "rbegin test end" << std::endl;
@@ -275,7 +275,7 @@ void mapREnd()
             std::cout<<"my map: "<< mit->first <<mit->second<<"orj map: "<<oit->first<<oit->second<<std::endl;
         }
         else
-            std::cout<<"OK"<<std::endl;
+            std::cout<<"\033[1;32m OK \033[0m"<<std::endl;
     }
 
     std::cout << "rend test end" << std::endl;
@@ -363,22 +363,23 @@ void mapMaxSize()
 {
     std::cout << "max size test start" << std::endl;
 
-	{
-		std::map<char,int> orjmap;
-		ft::map<char,int> mymap;
+
+		std::map<int,int> orjmap;
+		ft::map<int,int> mymap;
 
 	if (mymap.max_size()>1000)
     {
-        for (int i=0; i<1000; i++) mymap[i]=0;
-            std::cout << "\033[1;32m OK \033[0m"<<std::endl;
+        for (int i=0; i<1000; i++) 
+		{
+			mymap[i]=0;
+		}
+        std::cout << "\033[1;32m OK \033[0m"<<std::endl; 
     }
 	else
 	{
 		std::cout << "\033[1;31m FALSE \033[0m"<<std::endl;
         std::cout<<"my map: "<< mymap.max_size()<<"orj map: "<<orjmap.max_size()<<std::endl;
-	}
-	}
-
+	}	
     std::cout << "max size test end" << std::endl;
 
 }
@@ -504,33 +505,26 @@ void mapErase()
       mymap['f']=60;
 
       oit=orjmap.find('b');
-      orjmap.erase (oit);                   // erasing by iterator
+      orjmap.erase (oit);                  
 
 	  mit=mymap.find('b');
       mymap.erase (mit); 
 
-      orjmap.erase ('c');                  // erasing by key
+      orjmap.erase ('c');                  
 	  mymap.erase ('c');
-
-      oit=orjmap.find ('e');
-      orjmap.erase ( oit, orjmap.end() );    // erasing by range
-
-	  mit=mymap.find ('e');
-      mymap.erase ( mit, mymap.end() );
-
-
 
 
 		mit = mymap.begin();
-      for (oit=orjmap.begin(); oit!=orjmap.end(); ++oit)
+		oit=orjmap.begin();
+      for (; oit!=orjmap.end(); ++oit)
       {
 		if (mit->first == oit->first && mit->second == oit->second)
             std::cout << "\033[1;32m OK \033[0m"<<std::endl;
 		else
 		    std::cout <<"\033[1;31m FALSE \033[0m my map: "<<mit->first<<mit->second<<"orj"<<oit->first<<oit->second<<std::endl;
-		mit++;
+		
+		++mit;
       }
-
 
       std::cout << "erase test end" << std::endl;
 	  
@@ -653,29 +647,206 @@ void mapKeyComp()
 
 }
 
-void mapKeyComp()
+void mapValueComp()
 {
-/*     std::cout << "key compare test start" << std::endl;
+
+    std::cout << "value compare test start" << std::endl;
 
     std::map<int, int> stdMap;
-	stdMap[0] = 2;
-	stdMap[1] = 12;
-	stdMap[2] = 452;
-	std::cout<<stdMap[0]<<std::endl;
     ft::map<int, int> myMap;
-    
+
+    // value comparison function for std::map
     std::map<int, int>::value_compare stdComp = stdMap.value_comp();
-    
+
+    // value comparison function for my map
     ft::map<int, int>::value_compare myComp = myMap.value_comp();
 
-    if (stdComp(1, 2) == myComp(1, 2))
-        std::cout << "\033[1;32m OK \033[0m"<<std::endl;
-
+    // comparing the two value comparison functions
+    if (stdComp(std::make_pair(1, 2), std::make_pair(3, 4)) == myComp(ft::make_pair(1, 2), ft::make_pair(3, 4)))
+        std::cout << "\033[1;32m OK \033[0m" << std::endl;
     else
         std::cout << "\033[1;31m FALSE \033[0m Comparison functions are different" << std::endl;
 
-    std::cout << "key compare test end" << std::endl; */
+    std::cout << "value compare test end" << std::endl;
+
+}
+
+void mapFind()
+{
+    std::cout << "find test start" << std::endl;
+
+    std::map<char,int> orjmap;
+	ft::map<char,int> mymap;
+	
+    orjmap['x']=100;
+  	orjmap['y']=200;
+  	orjmap['z']=300;
+
+  	mymap['x']=100;
+  	mymap['y']=200;
+  	mymap['z']=300;
+
+    std::map<char, int>::iterator oit;
+    ft::map<char, int>::iterator mit;
+
+    oit = orjmap.find('x');
+    mit = mymap.find('x');
+
+
+    if (oit->first == mit->first && oit->second == mit->second)
+        std::cout << "\033[1;32m OK \033[0m" << std::endl;
+    else
+		std::cout <<"\033[1;31m FALSE \033[0m my map: "<<mit->first<<mit->second<<"orj"<<oit->first<<oit->second<<std::endl;
+
+
+    std::cout << "find test end" << std::endl;
+
+}
+
+void mapCount()
+{
+    std::cout << "count test start" << std::endl;
+
+    std::map<char,int> orjmap;
+	ft::map<char,int> mymap;
+	
+  	orjmap.insert(std::make_pair<char, int>('1', 10));
+	orjmap.insert(std::make_pair<char, int>('3', 20));
+	orjmap.insert(std::make_pair<char, int>('2', 30));
+
+
+  	mymap.insert(ft::make_pair<char, int>('1', 10));
+	mymap.insert(ft::make_pair<char, int>('3', 20));
+	mymap.insert(ft::make_pair<char, int>('2', 30));
+
+
+	if (mymap.count('2') == orjmap.count('2'))
+        std::cout << "\033[1;32m OK \033[0m" << std::endl;
+	else	
+		std::cout <<"\033[1;31m FALSE \033[0m my map: "<<mymap.count('2')<<"orj"<<orjmap.count('2')<<std::endl;
+
+
+    std::cout << "count test end" << std::endl;
+
+}
+
+void mapLowerBound()
+{
+    std::cout << "lower bound test start" << std::endl;
+
+      std::map<char,int> orjmap;
+      std::map<char,int>::iterator oit;
+
+      ft::map<char,int> mymap;
+      ft::map<char,int>::iterator mit;
+
+      // insert some values:
+      orjmap['a']=10;
+      orjmap['b']=20;
+      orjmap['c']=30;
+      orjmap['d']=40;
+      orjmap['e']=50;
+      orjmap['f']=60;
+
+	  mymap['a']=10;
+      mymap['b']=20;
+      mymap['c']=30;
+      mymap['d']=40;
+      mymap['e']=50;
+      mymap['f']=60;
+
+
+    std::map<char, int>::iterator stdIt = orjmap.lower_bound('d');
+    ft::map<char, int>::iterator myIt = mymap.lower_bound('d');
+
+    if (stdIt->first == myIt->first && stdIt->second == myIt->second)
+        std::cout << "\033[1;32m OK \033[0m" << std::endl;
+    else
+        std::cout << "\033[1;31m FALSE \033[0m lower_bound failed" << std::endl;
+	//std::cout<<stdIt->first<<stdIt->second<<std::endl;
+
+    std::cout << "lower bound test end" << std::endl;
 
 }
 
 
+void mapUpperBound()
+{
+    std::cout << "upper bound test start" << std::endl;
+
+      std::map<char,int> orjmap;
+      std::map<char,int>::iterator oit;
+
+      ft::map<char,int> mymap;
+      ft::map<char,int>::iterator mit;
+
+      // insert some values:
+      orjmap['a']=10;
+      orjmap['d']=40;
+      orjmap['b']=20;
+      orjmap['e']=50;
+      orjmap['f']=60;
+      orjmap['c']=30;
+
+	  mymap['a']=10;
+      mymap['d']=40;
+      mymap['b']=20;
+      mymap['e']=50;
+      mymap['f']=60;
+      mymap['c']=30;
+
+    std::map<char, int>::iterator stdIt = orjmap.upper_bound('d');
+    ft::map<char, int>::iterator myIt = mymap.upper_bound('d');
+
+    if (stdIt->first == myIt->first && stdIt->second == myIt->second)
+        std::cout << "\033[1;32m OK \033[0m" << std::endl;
+    else
+        std::cout << "\033[1;31m FALSE \033[0m upper_bound failed" << std::endl;
+	//std::cout<<stdIt->first<<stdIt->second<<std::endl;
+
+    std::cout << "upper bound test end" << std::endl;
+
+}
+
+void mapEqualRange()
+{
+
+    std::cout << "equal range test start" << std::endl;
+
+	std::map<int, std::string> orjMap;
+	ft::map<int, std::string> myMap;
+
+
+  	orjMap[1] = "one";
+  	orjMap[2] = "two";
+  	orjMap[3] = "three";
+  	orjMap[4] = "four";
+  	orjMap[5] = "five";
+
+  	myMap[1] = "one";
+  	myMap[2] = "two";
+  	myMap[3] = "three";
+  	myMap[4] = "four";
+  	myMap[5] = "five";
+  
+  	std::pair<std::map<int, std::string>::iterator, std::map<int, std::string>::iterator> orjrange;
+  	orjrange = orjMap.equal_range(3);
+	
+  	ft::pair<ft::map<int, std::string>::iterator, ft::map<int, std::string>::iterator> myrange;
+  	myrange = myMap.equal_range(3);
+
+	if (myrange.first->first == orjrange.first->first && myrange.first->second == orjrange.first->second &&
+		myrange.second->first == orjrange.second->first && myrange.second->second == orjrange.second->second)
+        std::cout << "\033[1;32m OK \033[0m" << std::endl;
+	else
+	{
+        std::cout << "\033[1;31m FALSE \033[0m" << std::endl;
+		std::cout<<"my range: "<<myrange.first->first<<myrange.first->second<<" orj range: "<<orjrange.first->first<<orjrange.first->second<<std::endl;
+		std::cout<<"my range: "<<myrange.second->first<<myrange.second->second<<" orj range: "<<orjrange.second->first<<orjrange.second->second<<std::endl;
+
+	}
+		//std::cout<<"my range: "<<myrange.first->first<<myrange.first->second<<" orj range: "<<orjrange.first->first<<orjrange.first->second<<std::endl;
+		//std::cout<<"my range: "<<myrange.second->first<<myrange.second->second<<" orj range: "<<orjrange.second->first<<orjrange.second->second<<std::endl;
+	
+    std::cout << "equal range test end" << std::endl;
+}

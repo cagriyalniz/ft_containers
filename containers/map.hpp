@@ -421,41 +421,40 @@ namespace ft
 		 * @param key 
 		 */
 
-		pair<iterator, iterator>equal_range(const key_type& key)
-		{
-			iterator it = upper_bound(key);
-
-			if (it != begin())
+					pair<iterator,iterator> equal_range(const key_type& k)
 			{
-				--it;
-				if (_comp(key, it->first) || _comp(key, it->first))
-					++it;
+				iterator it = upper_bound(k);
+
+				if (it != begin())
+				{
+					--it;
+					if (_comp(it->first, k) || _comp(k, it->first))
+						++it;
+				}
+
+				iterator next(it);
+				if (it != end())
+					++next;
+				
+				return ft::make_pair<iterator, iterator>(it, next);
 			}
+			pair<const_iterator,const_iterator> equal_range(const key_type& k) const
+			{
+				const_iterator it = upper_bound(k);
 
-			iterator next(it);
-			if (it != end())
-				++next;
+				if (it != begin())
+				{
+					--it;
+					if (_comp(it->first, k) || _comp(k, it->first))
+						++it;
+				}
 
-			return ft::make_pair<iterator, iterator>(it, next);
-		}
-
-		pair<const_iterator, const_iterator>equal_range(const key_type& key) const
-		{
-			const_iterator it = upper_bound(key);
-
-            if (it!= begin())
-            {
-                --it;
-                if (_comp(key, it->first))
-                    ++it;
-            }
-
-            const_iterator next(it);
-            if (it!= end())
-                ++next;
-
-            return ft::make_pair<const_iterator, const_iterator>(it, next);
-		}
+				const_iterator next(it);
+				if (it != end())
+					++next;
+				
+				return ft::make_pair<const_iterator, const_iterator>(it, next);
+			}
 
 		//private member funct
 
@@ -931,4 +930,10 @@ void mapClear();
 
 void mapKeyComp();
 void mapValueComp();
+
+void mapLowerBound();
+void mapUpperBound();
+void mapFind();
+void mapCount();
+void mapEqualRange();
 #endif

@@ -3,6 +3,14 @@
 
 namespace ft
 {
+	/**
+	 * @brief 
+	 * Pair sınıfı, iki farklı türdeki nesnelerin birleşik bir yapıda saklanması için kullanılır.
+	 *	Sınıf iki şablon argümanı alır: T1 ve T2. Bu argümanlar, pair'in first ve second veri elemanlarının veri türlerini belirler.
+	 *	Sınıfın public kısmında first ve second isimli iki veri elemanı bulunur. Bu veri elemanları, pair nesnesinin iki bileşenini temsil eder.
+	 * @tparam T1 
+	 * @tparam T2 
+	 */
 	template <typename T1, typename T2>
 	class pair
 	{

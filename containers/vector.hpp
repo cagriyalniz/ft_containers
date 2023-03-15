@@ -93,7 +93,7 @@ namespace ft
             	*this = vector;
             	return (*this);
         	}
-            ~vector(){};
+            ~vector(){if (this->_data != NULL) clear();};
 
 /*
 member functions - iterators:
@@ -123,8 +123,8 @@ crend		Return const_reverse_iterator to reverse end
             reverse_iterator rbegin(){ return (reverse_iterator(this->end())); }
             const_reverse_iterator rbegin() const { return (const_reverse_iterator(this->end())); }
 			
-            reverse_iterator rend(){return (reverse_iterator(this->begin()));}
-            const_reverse_iterator rend() const {return (const_reverse_iterator(this->begin()));}
+            reverse_iterator rend(){return (reverse_iterator(this->begin() - 1));}
+            const_reverse_iterator rend() const {return (const_reverse_iterator(this->begin() - 1));}
             /* const_iterator cbegin(){return const_iterator(this->_data);}
             const_reverse_iterator crend(){return const_iterator(this->_data[_size]);} */
 		//------------Iterator Functions end------------------------//
@@ -447,8 +447,13 @@ shrink_to_fit	Shrink to fit (public member function)
 
 			 void clear()
             {
-                this->_allocator.destroy(this->_data);
-                this->_size = 0;
+				for (size_t i = 0; i < this->_size; i++)
+					this->_allocator.destroy(&_data[i]);
+				if (this->_data != NULL)
+					this->_allocator.deallocate(this->_data, this->_capacity);
+				this->_data = NULL;
+				this->_size = 0;
+				this->_capacity = 0;
             }
 
 			//emplace

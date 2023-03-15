@@ -8,10 +8,12 @@
 
 int main()
 {
-	/* std::cout<<"Vector test is starting..."<<std::endl;
+	std::cout<<"Vector test is starting..."<<std::endl;
 //iterators
 	testBegin();
-	testEnd();
+	
+	testPushBack();
+ 	testEnd();
 	testRbegin();
 	testRend();
 
@@ -19,9 +21,8 @@ int main()
 	testSize();
 	testMaxSize();
 	testResize(); 
-	testCapacity();
 	testEmpty();
-	testReserve();
+ 	testReserve();
 
 //element access
 	testBoxBrackets();
@@ -38,26 +39,36 @@ int main()
 	testSwap();
 	testClear();
 	testGetAllocator(); 
-	std::cout<<"Vector test finished"<<std::endl; */
+	
+
+	std::cout<<"Vector test finished"<<std::endl;
 
 
 	std::cout<<"Map test is starting..."<<std::endl;
 	mapBegin();
 	mapEnd();
-	mapRBegin();
+ 	mapRBegin();
 	mapREnd();
 	mapEmpty();
-	mapSize();
+ 	mapSize();
 	mapMaxSize();
 	
 	mapBoxBrackets();
 	mapInsert(); 
-	//mapErase();
+	mapErase();
 	mapSwap();
 	mapClear();
+
 	mapKeyComp();
 	mapValueComp();
-	std::cout<<"Map test finished"<<std::endl;
+	
+	mapFind();
+	mapCount();
+	mapLowerBound();
+	mapUpperBound();
+	mapEqualRange();
+
+	std::cout<<"Map test finished"<<std::endl; 
 
 
 

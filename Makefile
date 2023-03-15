@@ -1,10 +1,10 @@
 NAME = container
-
-FILES = main.cpp test.cpp test_map.cpp
+LEAKS =	-fsanitize=address
+FILES = main.cpp test_vector.cpp test_map.cpp
 
 CC = c++ 
 
-FLAGS = -Wall -Wextra -Werror -std=c++98 -g
+FLAGS = -Wall -Wextra -Werror -std=c++98
 
 OBJECTS = $(FILES:.cpp=.o)
 

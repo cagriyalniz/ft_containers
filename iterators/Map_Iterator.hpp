@@ -42,7 +42,7 @@ namespace ft
                 _comp = copy.getCompare();
 			}
 
-			~map_iterator(){}
+			virtual ~map_iterator(){}
 
 			map_iterator& operator=(const map_iterator& other)
 			{
